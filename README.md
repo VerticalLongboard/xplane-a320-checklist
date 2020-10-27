@@ -1,2 +1,27 @@
-# xplane-a320-checklist
-A320 NORMAL CHECKLIST, as simple as it gets. Based on FlyWithLua
+# A320 NORMAL CHECKLIST
+
+## Overview
+
+A simple A320 normal checklist (from Before Start to Securing Aircraft), based on FlyWithLua. It can be moved freely within the cockpit and is completely independent (no PDF switching in Avitab etc. required).
+
+![A320 NORMAL CHECKLIST Screenshot](screenshots/A320-normal-checklist-screenshot.png "A320 NORMAL CHECKLIST Screenshot")
+
+## Installation
+
+* Install FlyWithLua: https://forums.x-plane.org/index.php?/files/file/38445-flywithlua-ng-next-generation-edition-for-x-plane-11-win-lin-mac/
+* Download [latest A320 NORMAL CHECKLIST release](https://github.com/VerticalLongboard/xplane-a320-checklist/releases/latest)
+* Move dependencies to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Modules`
+* Move `A320_checklist.lua` to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Scripts`
+
+## Usage
+
+* Go to `Plugins/FlyWithLua/FlyWithLua Macros/A320 NORMAL CHECKLIST`
+* Place and scale the window wherever you like (in 2D and VR)
+* Use the prev/next buttons to switch checklists
+* **Fly safe (and calm)! :-)**
+
+## Dependencies
+
+Additional dependencies besides X-Plane 11, SmartCopilot and FlyWithLua:
+- LUA INI Parser
+(bundled with each release)
