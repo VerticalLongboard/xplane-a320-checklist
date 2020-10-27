@@ -29,7 +29,7 @@ local licensesOfDependencies = {
 }
 
 for i = 1, #licensesOfDependencies do
-	logMsg(("VHF Helper using '%s' with license '%s'. Project homepage: %s"):format(licensesOfDependencies[i][1], licensesOfDependencies[i][2], licensesOfDependencies[i][3]))
+	logMsg(("A320 NORMAL CHECKLIST using '%s' with license '%s'. Project homepage: %s"):format(licensesOfDependencies[i][1], licensesOfDependencies[i][2], licensesOfDependencies[i][3]))
 end
 
 local function trim(str) return str:gsub("^%s*(.-)%s*$", "%1") end
