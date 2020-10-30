@@ -39,7 +39,7 @@ local function windowVisibilityToInitialMacroState(windowIsVisible) if windowIsV
 local LuaIniParser = require("LIP")
 
 local Configuration = {
-	Path = SCRIPT_DIRECTORY .. "a320-checklist.ini",
+	Path = SCRIPT_DIRECTORY .. "A320_checklist.ini",
 	Content = {},
 }
 
