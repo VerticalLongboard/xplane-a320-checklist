@@ -4,5 +4,13 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.formatOnSave": true,
+		"logViewer.watch": [
+			{
+				"title": "X-Plane Log.txt",
+				"pattern": "C:\\X-Plane 11\\Log.txt"
+			},
+		]
+	},
 }
