@@ -15,7 +15,8 @@ Required (Coding + Testing):
 * Vanilla Windows 10
 * Visual Studio Code: https://code.visualstudio.com/
 * Install Lua: https://github.com/rjpcomputing/luaforwindows
-* Run at least one build task and update local paths in:
+* Download the A320 NORMAL CHECKLIST repository and open the workspace in VS Code!
+* Run default build task (**CTRL+SHIFT+B**)at least one build task and update local paths in:
   * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
 
 Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
@@ -30,8 +31,6 @@ Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
 * Update local paths and plugin name in:
   * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
   * `<repository root>/build_configuration.cmd`
-
-Clone the A320 NORMAL CHECKLIST repository and open the workspace in VS Code!
 
 ### Build
 To build your plugin (and copy it to your locally running X-Plane instance), press **CTRL+SHIFT+B**, which runs the default build task.
