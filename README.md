@@ -28,3 +28,6 @@ It is based on real-world airline checklists, with a tiny perk: The After Approa
 Additional dependencies besides X-Plane 11, SmartCopilot and FlyWithLua:
 - LUA INI Parser
 (bundled with each release)
+
+## Developer Notes
+Thinking about creating your own FlyWithLua plugins? Have a look at the [Developer Notes](DEVELOPER-NOTES.md).
