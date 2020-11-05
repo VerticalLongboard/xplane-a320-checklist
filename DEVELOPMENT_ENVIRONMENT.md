@@ -19,11 +19,11 @@ Required (Coding + Testing):
 * Run default build task via **CTRL+SHIFT+B** once and update local paths in:
   * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
 
-Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
-* git: https://git-scm.com/
-* Install 7zip: https://www.7-zip.org/
-* Install NSIS: https://nsis.sourceforge.io/
-* Install Packetsender: https://packetsender.com/
+Optional:
+* git: https://git-scm.com/ (Versioning)
+* Install 7zip: https://www.7-zip.org/ (ZIP release package)
+* Install NSIS: https://nsis.sourceforge.io/ (EXE release installer)
+* Install Packetsender: https://packetsender.com/ (X-Plane remote command interface)
 * Install VS Code extensions:
   * vscode-lua (linting): https://marketplace.visualstudio.com/items?itemName=trixnz.vscode-lua
   * Code Runner (lets you run selected snippets of code): https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
