@@ -12,8 +12,9 @@ It is based on real-world airline checklists, with a tiny perk: The After Approa
 
 * Install FlyWithLua: https://forums.x-plane.org/index.php?/files/file/38445-flywithlua-ng-next-generation-edition-for-x-plane-11-win-lin-mac/
 * Download [latest A320 NORMAL CHECKLIST release](https://github.com/VerticalLongboard/xplane-a320-checklist/releases/latest)
-* Move dependencies to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Modules`
-* Move `A320_checklist.lua` to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Scripts`
+* *Use installer executable* and specify your X-Plane installation folder or unzip manually:
+  * Move dependencies to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Modules`
+  * Move `vhf_helper.lua` to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Scripts`
 
 ## Usage
 
