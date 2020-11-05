@@ -4,10 +4,10 @@
 If you happen to develop FlyWithLua plugins and are crossing the threshold from "coding a bit and pressing buttons to see if my plugin works" to "I don't like LUA too much, but it's doing its job and I like to code a bit more", feel free to use and adapt the VS Code / LuaUnit environment boilerplate from A320 NORMAL CHECKLIST.
 
 Perks:
-* *Linting* and colors while coding
-* *Testing* as you're used to
-* Pressing *Build* runs all tests, copies the script to X-Plane and triggers a running X-Plane instance to reload all scripts
-* Building a *release package* is only one button away (ZIP + Installer)
+* **Linting** and colors while coding
+* **Testing** as you're used to
+* Pressing **Build** runs all tests, copies the script to X-Plane and triggers a running X-Plane instance to reload all scripts
+* Building a **release package** is only one button away (ZIP + Installer)
 * Takes about 15 minutes (including downloads) to set it up
 
 ### Setup
