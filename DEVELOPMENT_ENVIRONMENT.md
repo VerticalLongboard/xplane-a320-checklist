@@ -16,7 +16,7 @@ Required (Coding + Testing):
 * Visual Studio Code: https://code.visualstudio.com/
 * Install Lua: https://github.com/rjpcomputing/luaforwindows
 * Download the A320 NORMAL CHECKLIST repository and open the workspace in VS Code!
-* Run default build task (**CTRL+SHIFT+B**)at least one build task and update local paths in:
+* Run default build task via **CTRL+SHIFT+B** at least one build task and update local paths in:
   * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
 
 Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
