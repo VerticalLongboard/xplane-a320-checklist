@@ -15,7 +15,9 @@ Required (Coding + Testing):
 * Vanilla Windows 10
 * Visual Studio Code: https://code.visualstudio.com/
 * Install Lua: https://github.com/rjpcomputing/luaforwindows
-* Run at least one task and update paths in `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
+* Run at least one task and update local paths and your plugin name in:
+  * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
+  * `<repository root>/build_configuration.cmd`
 
 Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
 * git: https://git-scm.com/
@@ -26,6 +28,6 @@ Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
   * vscode-lua (linting): https://marketplace.visualstudio.com/items?itemName=trixnz.vscode-lua
   * Code Runner (lets you run selected snippets of code): https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
   * NSIS (linting): https://marketplace.visualstudio.com/items?itemName=idleberg.nsis
-* Run at least one task and update paths in `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
+* Update paths if required
 
 Clone the A320 NORMAL CHECKLIST repository and open the workspace in VS Code!
