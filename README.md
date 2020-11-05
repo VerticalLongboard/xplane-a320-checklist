@@ -30,4 +30,4 @@ Additional dependencies besides X-Plane 11, SmartCopilot and FlyWithLua:
 (bundled with each release)
 
 ## Developer Notes
-Thinking about creating your own FlyWithLua plugins? Have a look at the [Developer Notes](DEVELOPER-NOTES.md).
+Thinking about creating your own FlyWithLua plugins? Have a look at the [Developer Notes](DEVELOPMENT-ENVIRONMENT.md).
