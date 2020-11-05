@@ -240,4 +240,4 @@ local function initializeOnce()
 	add_macro("A320 NORMAL CHECKLIST", "createA320ChecklistWindow()", "destroyA320ChecklistWindow()", windowVisibilityToInitialMacroState(windowIsSupposedToBeVisible))
 end
 
-initializeOnce()
+initializeOnce()
