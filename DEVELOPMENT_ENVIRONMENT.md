@@ -33,7 +33,7 @@ Optional (Versioning, Release Packaging, On-the-fly Script Reloading):
 Clone the A320 NORMAL CHECKLIST repository and open the workspace in VS Code!
 
 ### Build
-To build your plugin (and copy it to your locally running X-Plane instance), press *CTRL+SHIFT+B*, which runs the default build task.
+To build your plugin (and copy it to your locally running X-Plane instance), press **CTRL+SHIFT+B**, which runs the default build task.
 
 ### Release Package Generation
-Creating a release package is done via pressing *CTRL+* and typing `task packReleasePackage` into the little command panel that pops up.
+Creating a release package is done via pressing **CTRL+P** and typing `task packReleasePackage` into the little command panel that pops up.
