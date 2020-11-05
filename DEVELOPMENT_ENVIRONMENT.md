@@ -1,5 +1,7 @@
 # A320 NORMAL CHECKLIST Developer Notes
 
+Link to the up-do-date version of this document: [DEVELOPMENT_ENVIRONMENT.md](https://github.com/VerticalLongboard/xplane-a320-checklist/blob/main/DEVELOPMENT_ENVIRONMENT.md)
+
 ## Development Environment
 If you happen to develop FlyWithLua plugins and are crossing the threshold from "coding a bit and pressing buttons to see if my plugin works" to "I don't like LUA too much, but it's doing its job and I like to code a bit more", feel free to use and adapt the VS Code / LuaUnit environment boilerplate from A320 NORMAL CHECKLIST.
 
