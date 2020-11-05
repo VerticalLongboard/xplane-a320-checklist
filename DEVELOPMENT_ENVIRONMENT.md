@@ -8,6 +8,7 @@ Perks:
 * Testing as you're used to
 * Pressing "Build" runs all tests, copies the script to X-Plane and triggers a running X-Plane instance to reload all scripts
 * Building a release package is only one button away (ZIP + Installer)
+* Takes about 15 minutes (including downloads) to set it up
 
 ### Setup
 Required (Coding + Testing):
