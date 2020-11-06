@@ -40,11 +40,11 @@ flyWithLuaStub = {
     },
     datarefs = {},
     windows = {},
-    userInterfaceIsActive = false,
     suppressLogMessageString = nil,
     doSometimesFunctions = {},
     doOftenFunctions = {},
     doEveryFrameFunctions = {},
+    macros = {},
     planeIcao = nil
 }
 
@@ -78,10 +78,10 @@ function flyWithLuaStub:reset()
     self:setPlaneIcao(invalidPlaneIcao)
     self.datarefs = {}
     self.windows = {}
-    self.userInterfaceIsActive = false
     self.doSometimesFunctions = {}
     self.doOftenFunctions = {}
     self.doEveryFrameFunctions = {}
+    self.macros = {}
 end
 
 function flyWithLuaStub:createSharedDatarefHandle(datarefId, datarefType, initialData)
@@ -100,22 +100,52 @@ function flyWithLuaStub:createSharedDatarefHandle(datarefId, datarefType, initia
     }
 end
 
-function flyWithLuaStub:bootstrapScriptUserInterface()
-    if (self.initialActivationState == self.Constants.InitialStateActivate) then
-        self.activateScriptFunction()
-        self.userInterfaceIsActive = true
+function flyWithLuaStub:bootstrapAllMacros()
+    for _, macro in pairs(self.macros) do
+        luaUnit.assertIsFalse(macro.isActiveNow)
+        if (macro.activateInitially) then
+            macro.activateFunction()
+            macro.isActiveNow = true
+        end
     end
 end
 
-function flyWithLuaStub:activateUserInterfaceNow()
-    luaUnit.assertFalse(self.userInterfaceIsActive)
-    self.activateScriptFunction()
-    self.userInterfaceIsActive = true
+function flyWithLuaStub:activateAllMacrosNow(activate)
+    for _, macro in pairs(self.macros) do
+        if (activate) then
+            luaUnit.assertIsFalse(macro.isActiveNow)
+            macro.activateFunction()
+        else
+            luaUnit.assertIsTrue(macro.isActiveNow)
+            macro.deactivateFunction()
+        end
+        macro.isActiveNow = activate
+    end
 end
 
-function flyWithLuaStub:shutdownScriptUserInterface()
-    self.deactivateScriptFunction()
-    self.userInterfaceIsActive = false
+function flyWithLuaStub:activateMacro(macroName, activate)
+    for _, macro in pairs(self.macros) do
+        if (macro.name == macroName) then
+            if (activate) then
+                luaUnit.assertIsFalse(macro.isActiveNow)
+                macro.activateFunction()
+            else
+                luaUnit.assertIsTrue(macro.isActiveNow)
+                macro.deactivateFunction()
+            end
+            macro.isActiveNow = activate
+        end
+    end
+end
+
+function flyWithLuaStub:isMacroActive(macroName)
+    for _, macro in pairs(self.macros) do
+        if (macro.name == macroName) then
+            return macro.isActiveNow
+        end
+    end
+
+    return false
 end
 
 function flyWithLuaStub:closeWindow(window)
@@ -139,10 +169,6 @@ function flyWithLuaStub:runNextFrameAfterExternalWritesToDatarefs()
     end
 
     self:readbackAllWritableDatarefs()
-
-    if (not flyWithLuaStub.userInterfaceIsActive) then
-        return
-    end
 
     imguiStub:startFrame()
 
@@ -176,15 +202,22 @@ end
 function create_command(commandName, readableCommandName, toggleExpressionName, something1, something2)
 end
 
-function add_macro(readableScriptName, activateExpression, deactivateExpression, activateOrDeactivate)
-    flyWithLuaStub.activateScriptFunction = loadstring(activateExpression)
-    flyWithLuaStub.deactivateScriptFunction = loadstring(deactivateExpression)
-
+function add_macro(macroName, activateExpression, deactivateExpression, activateOrDeactivate)
     luaUnit.assertTableContains(
         {flyWithLuaStub.Constants.InitialStateActivate, flyWithLuaStub.Constants.InitialStateDeactivate},
         activateOrDeactivate
     )
-    flyWithLuaStub.initialActivationState = activateOrDeactivate
+
+    table.insert(
+        flyWithLuaStub.macros,
+        {
+            name = macroName,
+            activateFunction = loadstring(activateExpression),
+            deactivateFunction = loadstring(deactivateExpression),
+            activateInitially = activateOrDeactivate == flyWithLuaStub.Constants.InitialStateActivate,
+            isActiveNow = false
+        }
+    )
 end
 
 function define_shared_DataRef(globalDatarefIdName, datarefType)

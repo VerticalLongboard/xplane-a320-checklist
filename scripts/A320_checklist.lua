@@ -270,6 +270,8 @@ function createA320ChecklistWindow()
 	Config:save()
 end
 
+local defaultMacroName = "A320 NORMAL CHECKLIST"
+
 local function initializeOnce()
 	Config:load()
 
@@ -282,14 +284,14 @@ local function initializeOnce()
 		windowIsSupposedToBeVisible = false
 
 		add_macro(
-			("A320 NORMAL CHECKLIST in plane %s"):format(PlaneCheckerSingleton:getIcao()),
+			("%s in plane %s"):format(defaultMacroName, PlaneCheckerSingleton:getIcao()),
 			"createA320ChecklistWindow()",
 			"destroyA320ChecklistWindow()",
 			windowVisibilityToInitialMacroState(windowIsSupposedToBeVisible)
 		)
 	else
 		add_macro(
-			"A320 NORMAL CHECKLIST",
+			defaultMacroName,
 			"createA320ChecklistWindow()",
 			"destroyA320ChecklistWindow()",
 			windowVisibilityToInitialMacroState(windowIsSupposedToBeVisible)
@@ -302,5 +304,6 @@ initializeOnce()
 a320ChecklistPackageExport = {}
 a320ChecklistPackageExport.test = {}
 a320ChecklistPackageExport.test.Config = Config
+a320ChecklistPackageExport.test.defaultMacroName = defaultMacroName
 
 return
