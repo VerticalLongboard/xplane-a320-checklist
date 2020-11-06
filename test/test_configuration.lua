@@ -30,7 +30,7 @@ function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanesEvenAfte
 
     luaUnit.assertIsFalse(flyWithLuaStub:isMacroActive(a320ChecklistPackageExport.test.defaultMacroName))
 
-    flyWithLuaStub:activateAllMacrosNow(true)
+    flyWithLuaStub:activateAllMacros(true)
 
     luaUnit.assertEquals(a320ChecklistPackageExport.test.Config.Content.Windows.MainWindowVisibility, "hidden")
 end
