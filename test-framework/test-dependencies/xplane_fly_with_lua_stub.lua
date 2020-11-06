@@ -107,6 +107,12 @@ function flyWithLuaStub:bootstrapScriptUserInterface()
     end
 end
 
+function flyWithLuaStub:activateUserInterfaceNow()
+    luaUnit.assertFalse(self.userInterfaceIsActive)
+    self.activateScriptFunction()
+    self.userInterfaceIsActive = true
+end
+
 function flyWithLuaStub:shutdownScriptUserInterface()
     self.deactivateScriptFunction()
     self.userInterfaceIsActive = false
@@ -120,29 +126,17 @@ function flyWithLuaStub:closeWindow(window)
 end
 
 function flyWithLuaStub:runNextFrameAfterExternalWritesToDatarefs()
-    local functionCount = nil
-
-    functionCount = 0
     for _, f in pairs(self.doSometimesFunctions) do
-        functionCount = functionCount + 1
         f()
     end
-    -- logMsg(("FlyWithLua STUB: Called num=%d doSometimes functions"):format(functionCount))
 
-    functionCount = 0
     for _, f in pairs(self.doOftenFunctions) do
-        functionCount = functionCount + 1
         f()
     end
-
-    functionCount = 0
-    -- logMsg(("FlyWithLua STUB: Called num=%d doOften functions"):format(functionCount))
 
     for _, f in pairs(self.doEveryFrameFunctions) do
-        functionCount = functionCount + 1
         f()
     end
-    -- logMsg(("FlyWithLua STUB: Called num=%d doEveryFrame functions"):format(functionCount))
 
     self:readbackAllWritableDatarefs()
 
