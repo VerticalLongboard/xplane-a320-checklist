@@ -257,9 +257,11 @@ function destroyA320ChecklistWindow()
 	Config:save()
 end
 
+local defaultWindowTitle = "A320 NORMAL CHECKLIST"
+
 function createA320ChecklistWindow()
 	a320ChecklistWindow = float_wnd_create(270, 230, 1, true)
-	float_wnd_set_title(a320ChecklistWindow, "A320 NORMAL CHECKLIST")
+	float_wnd_set_title(a320ChecklistWindow, defaultWindowTitle)
 	float_wnd_set_imgui_builder(a320ChecklistWindow, "buildA320ChecklistWindow")
 	float_wnd_set_onclose(a320ChecklistWindow, "destroyA320ChecklistWindow")
 
@@ -305,5 +307,6 @@ a320ChecklistPackageExport = {}
 a320ChecklistPackageExport.test = {}
 a320ChecklistPackageExport.test.Config = Config
 a320ChecklistPackageExport.test.defaultMacroName = defaultMacroName
+a320ChecklistPackageExport.test.defaultWindowTitle = defaultWindowTitle
 
 return

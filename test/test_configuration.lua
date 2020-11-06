@@ -45,9 +45,7 @@ function TestConfiguration:testPanelDoesNotOpenUpAgainAutomaticallyAfterClosingI
     luaUnit.assertIsTrue(flyWithLuaStub:isMacroActive(a320ChecklistPackageExport.test.defaultMacroName))
 
     luaUnit.assertEquals(a320ChecklistPackageExport.test.Config.Content.Windows.MainWindowVisibility, "visible")
-    for _, window in pairs(flyWithLuaStub.windows) do
-        flyWithLuaStub:closeWindow(window)
-    end
+    flyWithLuaStub:closeWindowByTitle(a320ChecklistPackageExport.test.defaultWindowTitle)
     luaUnit.assertEquals(a320ChecklistPackageExport.test.Config.Content.Windows.MainWindowVisibility, "hidden")
 
     flyWithLuaStub:activateMacro(a320ChecklistPackageExport.test.defaultMacroName, false)
