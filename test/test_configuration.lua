@@ -5,7 +5,7 @@ function TestConfiguration:testPanelOpensByDefaultInAnA320()
     flyWithLuaStub:setPlaneIcao("A320")
     local checklist = dofile("scripts/A320_checklist.lua")
     flyWithLuaStub:bootstrapAllMacros()
-    flyWithLuaStub:runNextFrameAfterExternalWritesToDatarefs()
+    flyWithLuaStub:runNextCompleteFrameAfterExternalWritesToDatarefs()
 
     luaUnit.assertIsTrue(flyWithLuaStub:isMacroActive(a320ChecklistPackageExport.test.defaultMacroName))
 end
@@ -15,7 +15,7 @@ function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanes()
     flyWithLuaStub:setPlaneIcao("MD82")
     local checklist = dofile("scripts/A320_checklist.lua")
     flyWithLuaStub:bootstrapAllMacros()
-    flyWithLuaStub:runNextFrameAfterExternalWritesToDatarefs()
+    flyWithLuaStub:runNextCompleteFrameAfterExternalWritesToDatarefs()
 
     luaUnit.assertIsFalse(flyWithLuaStub:isMacroActive("A320 NORMAL CHECKLIST in plane MD82"))
 end
@@ -26,7 +26,7 @@ function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanesEvenAfte
     local checklist = dofile("scripts/A320_checklist.lua")
     a320ChecklistPackageExport.test.Config.Content.Windows.MainWindowVisibility = "hidden"
     flyWithLuaStub:bootstrapAllMacros()
-    flyWithLuaStub:runNextFrameAfterExternalWritesToDatarefs()
+    flyWithLuaStub:runNextCompleteFrameAfterExternalWritesToDatarefs()
 
     luaUnit.assertIsFalse(flyWithLuaStub:isMacroActive(a320ChecklistPackageExport.test.defaultMacroName))
 
@@ -40,7 +40,7 @@ function TestConfiguration:testPanelDoesNotOpenUpAgainAutomaticallyAfterClosingI
     flyWithLuaStub:setPlaneIcao("A320")
     local checklist = dofile("scripts/A320_checklist.lua")
     flyWithLuaStub:bootstrapAllMacros()
-    flyWithLuaStub:runNextFrameAfterExternalWritesToDatarefs()
+    flyWithLuaStub:runNextCompleteFrameAfterExternalWritesToDatarefs()
 
     luaUnit.assertIsTrue(flyWithLuaStub:isMacroActive(a320ChecklistPackageExport.test.defaultMacroName))
 
