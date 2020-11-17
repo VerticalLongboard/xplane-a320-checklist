@@ -1,5 +1,4 @@
 # A320 NORMAL CHECKLIST Developer Notes
-
 Link to the up-to-date version of this document: [DEVELOPMENT_ENVIRONMENT.md](https://github.com/VerticalLongboard/xplane-a320-checklist/blob/main/DEVELOPMENT_ENVIRONMENT.md)
 
 ## Development Environment
@@ -36,7 +35,8 @@ Optional:
 * Update local paths and plugin name in:
   * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
   * `<repository root>/build_configuration.cmd`
-
+  
+## How-To
 ### Build
 To build your plugin (and copy it to your locally running X-Plane instance), press **CTRL+SHIFT+B**, which runs the default build task.
 
@@ -44,6 +44,7 @@ To build your plugin (and copy it to your locally running X-Plane instance), pre
 Creating a release package is done via pressing **CTRL+P** and typing `task packReleasePackage` into the little command panel that pops up.
 
 ## Observations and Hints
+### Lua
 After spending a few hours with LUA, it appears LUA looks like Turbo Pascal and tries to be JavaScript. It ends up having the disadvantages of both:
 * Not being required to define variables is neither cool nor elegant. Up the test coverage to close to 100% when writing LUA. Nil.
 * Write more inter-module tests than you're used to, because you can easily nil-disconnect two (mentally) coupled components. Coupling is not a bad thing, especially if it is intentional.
