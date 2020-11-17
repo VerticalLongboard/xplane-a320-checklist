@@ -41,7 +41,7 @@ Optional:
 ### Build
 To build your plugin (and copy it to your locally running X-Plane instance), press **CTRL+SHIFT+B**, which runs the default build task.
 
-### Release Package Generation
+### Generate Release Package
 Creating a release package is done via pressing **CTRL+P** and typing `task packReleasePackage` into the little command panel that pops up.
 
 ## Observations and Hints
