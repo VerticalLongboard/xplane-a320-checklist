@@ -68,7 +68,7 @@ if %TAG%==TAGLESS (
     goto :label_end
 ) else (
     echo.
-    echo Don't forget to push the release tag to make Github see it in the 'Draft Release' page.
+    echo Don't forget to push the release tag to make Github recognize it in the 'Draft Release' page.
 )
 
 set OPEN_RELEASE_PAGES_TIMEOUT=5
@@ -91,7 +91,7 @@ if !GITHUB_REPO_URL!==!DEFAULT_GITHUB_REPO_URL_WITHOUT_QUOTES! (
     start "" .
 )
 
-:goto label_end
+goto :label_end
 
     :label_prompt_update_build_configuration
     echo Your current build configuration still contains [93mdefault values[0m. To build a proper release,
