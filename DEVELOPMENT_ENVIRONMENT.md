@@ -51,4 +51,7 @@ After spending a few hours with LUA, it appears LUA looks like Turbo Pascal and 
 * Everything is global by default (yes, even things defined in anonymous functions inside a function that sits in a table), polluting your namespace. Dependency Hell Yeah! Feels like writing Assembly that is supposed to run in a JRE.
 * { Can you read this question? } then Better write this instead! end
 
-Nonetheless, it doesn't shoo away both people who developed software before and those who didn't. There's automatic memory management and it is relatively easy to create something that remotely resembles components. That's good. Many platforms use it because it's easy to embed. Also, when running it on LuaJIT (like FlyWithLua), copying files in a build takes longer than running a full test suite plus the script itself, cutting iteration times to almost zero.
+Nonetheless:
+* It doesn't immediately shoo away both people who developed software before and those who didn't.
+* There's automatic memory management and it is relatively easy to create something that remotely resembles components. That's good.
+* Many platforms use it because it's easy to embed. Also, when running it on LuaJIT (like FlyWithLua), copying files in a build takes longer than running a full test suite plus the script itself, cutting iteration times to almost zero.
