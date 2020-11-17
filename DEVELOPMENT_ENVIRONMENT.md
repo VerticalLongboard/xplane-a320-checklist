@@ -48,7 +48,7 @@ Creating a release package is done via pressing **CTRL+P** and typing `task pack
 ### Lua
 After spending a few hours with LUA, it appears LUA looks like Turbo Pascal and tries to be JavaScript. It ends up having the disadvantages of both:
 * Not being required to define variables is neither cool nor elegant. Up the test coverage to close to 100% when writing LUA. Nil.
-* Write more inter-module tests than you're used to, because you can easily nil-disconnect two (mentally) coupled components. Coupling is not a bad thing, especially if it is intentional.
+* Write more inter-module tests than you're used to, because you can easily nil-disconnect two (mentally) coupled components. Coupling is not a bad thing, especially when it is intentional.
 * Everything is global by default (yes, even things defined in anonymous functions inside a function that sits in a table), polluting your namespace. Dependency Hell Yeah! Feels like writing Assembly that is supposed to run in a JRE.
 * { Can you read this question? } then Better write this instead! end
 
