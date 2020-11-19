@@ -17,9 +17,10 @@ if not exist .\script_modules mkdir .\script_modules
 
 for /F %%A in ('dir /a-d-s-h /b .\scripts ^| find /V /C ""') do set SCRIPT_MODULES_FILE_COUNT=%%A
 if %SCRIPT_MODULES_FILE_COUNT% NEQ 1 (
-    echo To successfully run a script within FlyWithLua, the [94mscripts[0m folder needs to contain [93mexactly one[0m lua file.
-    echo Currently, [94mscripts[0m contains %SCRIPT_MODULES_FILE_COUNT% files.
-    echo If you need more than one file, place everything besides the single main script in [94mscript_modules[0m.
+    echo To successfully run a script within FlyWithLua, the [94m.\scripts[0m folder needs to contain [93mexactly one[0m lua file.
+    echo Currently, [94m.\scripts[0m [91mcontains %SCRIPT_MODULES_FILE_COUNT% files[0m.
+    echo If you need more than one file, place everything besides the single main script in [94m.\script_modules\CUSTOM_SUBFOLDER[0m.
+    echo All files in [94m.\script_modules[0m are copied to the FlyWithLua modules folder as well, so keep them in a custom subfolder.
     echo.
     set ERRORLEVEL=1
     goto :label_copy_error
