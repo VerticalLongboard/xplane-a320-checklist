@@ -22,11 +22,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
---]] luaUnit =
-    require("luaUnit")
+--]]
+luaUnit = require("luaUnit")
+
+-- imgui.constant.StyleVar.FrameRounding
 
 imgui = {
-    constant = {StyleVar = {ItemSpacing}, Col = {Text, Button}},
+    constant = {
+        StyleVar = {
+            ItemSpacing = "ItemSpacing",
+            FrameRounding = "FrameRounding",
+            FrameBorderSize = "FrameBorderSize"
+        },
+        Col = {Text = "Text", Button = "Button", Separator = "Separator"}
+    },
     Constants = {
         Button = "Button",
         SmallButton = "SmallButton",
@@ -37,9 +46,13 @@ imgui = {
         Separator = "Separator",
         InputText = "InputText",
         SliderFloat = "SliderFloat",
-        Checkbox = "Checkbox"
+        Checkbox = "Checkbox",
+        SetCursorPos = "SetCursorPos"
     },
     LastFrameCommandList = {},
+    SetCursorPos = function(x, y)
+        table.insert(imgui.LastFrameCommandList, {type = imgui.Constants.SetCursorPos})
+    end,
     Checkbox = function(title, initialValue)
         imgui:checkStringForWatchStrings(title)
         table.insert(imgui.LastFrameCommandList, {type = imgui.Constants.Checkbox, description = title})
@@ -53,6 +66,11 @@ imgui = {
         table.insert(imgui.LastFrameCommandList, {type = imgui.Constants.InputText, description = title})
     end,
     SetWindowFontScale = function(value)
+    end,
+    PushStyleVar = function(value, value2)
+        luaUnit.assertNotNil(value)
+        luaUnit.assertNotNil(value2)
+        imgui.styleVarStackSize = imgui.styleVarStackSize + 1
     end,
     PushStyleVar_2 = function(value, value2, value3)
         luaUnit.assertNotNil(value2)
@@ -162,6 +180,30 @@ function imgui:findCommandInList(startIndex, commandType)
     end
 
     return nil
+end
+
+function imgui:debugPrintCommandList()
+    logMsg("ImguiStub: All commands captured in last frame:\n" .. "-----------------------------------------------")
+    local num = 0
+    for _, command in pairs(self.LastFrameCommandList) do
+        num = num + 1
+        local commandLine = ""
+        commandLine = commandLine .. ("%d type=%s "):format(num, command.type)
+        if
+            (command.type == imgui.Constants.Checkbox or command.type == imgui.Constants.SliderFloat or
+                command.type == imgui.Constants.InputText)
+         then
+            commandLine = commandLine .. ("description=%s"):format(command.description)
+        elseif (command.type == imgui.Constants.Button or command.type == imgui.Constants.SmallButton) then
+            commandLine = commandLine .. ("title=%s"):format(command.title)
+        elseif (command.type == imgui.Constants.TextUnformatted) then
+            commandLine = commandLine .. ("textString=%s"):format(command.textString)
+        elseif (command.type == imgui.Constants.PushStyleColor) then
+            commandLine = commandLine .. ("color=%s"):format(tostring(command.color))
+        end
+        logMsg(commandLine)
+    end
+    logMsg(("%d commands captured"):format(num))
 end
 
 function imgui:checkStringForWatchStrings(value)

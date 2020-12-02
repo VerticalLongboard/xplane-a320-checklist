@@ -29,26 +29,29 @@ local imguiStub = require("imgui_stub")
 SCRIPT_DIRECTORY = os.getenv("TEMP_TEST_SCRIPT_FOLDER") .. "\\"
 
 local function resetPlatformGlobals()
+    local invalidSystem = "TEST"
+    local invalidPlaneTailnumber = "???"
     local invalidPlaneIcao = "...."
     local invalidXplaneVersion = "0"
-    local invalidAircraftPath = "."
-    local invalidAircraftFilename = ""
+    local defaultAircraftPath = SCRIPT_DIRECTORY
+    local invalidAircraftFilename = "does_not_exist.acf"
 
+    PLANE_TAILNUMBER = invalidPlaneTailnumber
+    SYSTEM = invalidSystem
     PLANE_ICAO = invalidPlaneIcao
     XPLANE_VERSION = invalidXplaneVersion
-    AIRCRAFT_PATH = invalidAircraftPath
+    AIRCRAFT_PATH = defaultAircraftPath
     AIRCRAFT_FILENAME = invalidAircraftFilename
 end
 
 resetPlatformGlobals()
-
-PLANE_ICAO = invalidPlaneIcao
 
 flyWithLuaStub = {
     Constants = {
         AccessTypeReadable = "readable",
         AccessTypeWritable = "writable",
         DatarefTypeInteger = "Int",
+        DatarefTypeFloat = "Float",
         InitialStateActivate = "activate",
         InitialStateDeactivate = "deactivate"
     },
@@ -59,7 +62,8 @@ flyWithLuaStub = {
     doOftenFunctions = {},
     doEveryFrameFunctions = {},
     macros = {},
-    commands = {}
+    commands = {},
+    nonResettableNumLogMessagesSuppressed = 0
 }
 
 function logMsg(stringToLog)
@@ -70,13 +74,17 @@ function logMsg(stringToLog)
     if (stringToLog ~= nil) then
         if (flyWithLuaStub.suppressLogMessageString ~= nil) then
             if (stringToLog:sub(1, #flyWithLuaStub.suppressLogMessageString) == flyWithLuaStub.suppressLogMessageString) then
+                flyWithLuaStub.nonResettableNumLogMessagesSuppressed =
+                    flyWithLuaStub.nonResettableNumLogMessagesSuppressed + 1
                 return
             end
         end
 
         if (flyWithLuaStub.suppressLogMessageStrings ~= nil) then
             for str, _ in pairs(flyWithLuaStub.suppressLogMessageStrings) do
-                if (stringToLog:find(str) ~= nil) then
+                if (stringToLog:find(str, 1, true) ~= nil) then
+                    flyWithLuaStub.nonResettableNumLogMessagesSuppressed =
+                        flyWithLuaStub.nonResettableNumLogMessagesSuppressed + 1
                     return
                 end
             end
@@ -84,6 +92,10 @@ function logMsg(stringToLog)
     end
 
     print("[7m" .. stringToLog .. "[0m")
+end
+
+function flyWithLuaStub:printSummary()
+    print(("FlyWithLuaStub: [7m%d log messages suppressed[0m"):format(self.nonResettableNumLogMessagesSuppressed))
 end
 
 function flyWithLuaStub:suppressLogMessagesContaining(listOfStrings)
@@ -225,7 +237,7 @@ function flyWithLuaStub:debugPrintAllDatarefs()
     logMsg("All datarefs:")
     local numDatarefs = 0
     for datarefId, d in pairs(self.datarefs) do
-        logMsg(("Dataref id=%s value=%s"):format(datarefId, tostring(d)))
+        logMsg(("Dataref id=%s type=%s value=%s"):format(datarefId, d.type, tostring(d)))
         numDatarefs = numDatarefs + 1
     end
 
@@ -290,10 +302,9 @@ function flyWithLuaStub:runNextCompleteFrameAfterExternalWritesToDatarefs()
     self:runAllDoSometimesFunctions()
     self:runAllDoOftenFunctions()
     self:runAllDoEveryFrameFunctions()
+    self:runImguiFrame()
 
     self:readbackAllWritableDatarefs()
-
-    self:runImguiFrame()
 end
 
 function flyWithLuaStub:readbackAllWritableDatarefs()
@@ -319,7 +330,8 @@ function flyWithLuaStub:writeDatarefValueToLocalVariables(globalDatarefIdName)
         if (d.data ~= nil) then
             actualNewData = tostring(d.data)
         end
-        localVariable.writeFunction = loadstring(localVariableName .. " = " .. actualNewData)
+
+        localVariable.writeFunction = LOAD_LUA_STRING(localVariableName .. " = " .. actualNewData)
         luaUnit.assertNotNil(localVariable.writeFunction)
         localVariable.writeFunction()
     end
@@ -352,7 +364,7 @@ end
 function create_command(commandName, readableCommandName, commandExpressionString, something1, something2)
     flyWithLuaStub.commands[commandName] = {
         readableName = readableCommandName,
-        commandFunction = loadstring(commandExpressionString)
+        commandFunction = LOAD_LUA_STRING(commandExpressionString)
     }
 end
 
@@ -366,8 +378,8 @@ function add_macro(macroName, activateExpression, deactivateExpression, activate
         flyWithLuaStub.macros,
         {
             name = macroName,
-            activateFunction = loadstring(activateExpression),
-            deactivateFunction = loadstring(deactivateExpression),
+            activateFunction = LOAD_LUA_STRING(activateExpression),
+            deactivateFunction = LOAD_LUA_STRING(deactivateExpression),
             activateInitially = activateOrDeactivate == flyWithLuaStub.Constants.InitialStateActivate,
             isActiveNow = false
         }
@@ -401,7 +413,7 @@ function dataref(localDatarefVariable, globalDatarefIdName, accessType)
         d.localVariables[localDatarefVariable] = variable
     end
 
-    variable.readFunction = loadstring("return " .. localDatarefVariable)
+    variable.readFunction = LOAD_LUA_STRING("return " .. localDatarefVariable)
     luaUnit.assertNotNil(variable.readFunction)
     variable.accessType = accessType
 
@@ -411,15 +423,15 @@ function dataref(localDatarefVariable, globalDatarefIdName, accessType)
 end
 
 function do_sometimes(doSometimesExpression)
-    table.insert(flyWithLuaStub.doSometimesFunctions, loadstring(doSometimesExpression))
+    table.insert(flyWithLuaStub.doSometimesFunctions, LOAD_LUA_STRING(doSometimesExpression))
 end
 
 function do_often(doOftenExpression)
-    table.insert(flyWithLuaStub.doOftenFunctions, loadstring(doOftenExpression))
+    table.insert(flyWithLuaStub.doOftenFunctions, LOAD_LUA_STRING(doOftenExpression))
 end
 
 function do_every_frame(doEveryFrameExpression)
-    table.insert(flyWithLuaStub.doEveryFrameFunctions, loadstring(doEveryFrameExpression))
+    table.insert(flyWithLuaStub.doEveryFrameFunctions, LOAD_LUA_STRING(doEveryFrameExpression))
 end
 
 function XPLMFindDataRef(datarefName)
@@ -430,7 +442,18 @@ function XPLMFindDataRef(datarefName)
         return nil
     end
 
-    luaUnit.assertTrue(d.isInternallyDefinedDataref)
+    TRACK_ISSUE(
+        "FlyWithLua",
+        "deleting a dataref",
+        "In tests, it works because the environment is reset completely. Accept FlyWithLua/X-Plane flaw for now."
+    )
+    if (not d.isInternallyDefinedDataref) then
+        logMsg(
+            ("FlyWithLua Stub: Looked for dataref name=%s that is NOT created via createSharedDatarefHandle. That means you're very likely working around an X-Plane/FlyWithLua issue."):format(
+                datarefName
+            )
+        )
+    end
 
     return datarefName
 end
@@ -442,6 +465,18 @@ function float_wnd_create(width, height, something, whatever)
     }
     table.insert(flyWithLuaStub.windows, newWindow)
     return newWindow
+end
+
+function XPLMSetDataf(datarefName, newDataAsFloat)
+    luaUnit.assertNotNil(datarefName)
+    luaUnit.assertNotNil(newDataAsFloat)
+
+    local d = flyWithLuaStub.datarefs[datarefName]
+    luaUnit.assertNotNil(d)
+    luaUnit.assertEquals(d.type, flyWithLuaStub.Constants.DatarefTypeFloat)
+    d.data = newDataAsFloat
+
+    luaUnit.assertTrue(d.isInternallyDefinedDataref)
 end
 
 function XPLMSetDatai(datarefName, newDataAsInteger)
@@ -471,16 +506,20 @@ function float_wnd_set_title(window, newTitle)
 end
 
 function float_wnd_set_onclose(window, newCloseFunctionName)
-    window.closeFunction = loadstring(newCloseFunctionName .. "()")
+    window.closeFunction = LOAD_LUA_STRING(newCloseFunctionName .. "()")
     window.closeFunctionName = newCloseFunctionName
 end
 
 function float_wnd_set_imgui_builder(window, newImguiBuilderFunctionName)
-    window.imguiBuilderFunction = loadstring(newImguiBuilderFunctionName .. "()")
+    window.imguiBuilderFunction = LOAD_LUA_STRING(newImguiBuilderFunctionName .. "()")
     window.imguiBuilderFunctionName = newImguiBuilderFunctionName
 end
 
--- This function does not show windows in FlyWithLua when called like this: float_wnd_set_visible(window, 1), but it should.
+TRACK_ISSUE(
+    "FlyWithLua",
+    "float_wnd_set_visible does not show windows in FlyWithLua when called like this: float_wnd_set_visible(window, 1), but it should.",
+    "Do not call this function for now and block using it for anything besides hiding."
+)
 function float_wnd_set_visible(window, intValue)
     luaUnit.assertEquals(intValue, 0) -- Only hiding works in FlyWithLua
     luaUnit.assertNotNil(window)
@@ -495,7 +534,12 @@ function float_wnd_set_visible(window, intValue)
     window.isVisible = boolValue
 end
 
--- This function is not available in FlyWithLua, but it should.
+TRACK_ISSUE(
+    "FlyWithLua",
+    "float_wnd_get_visible is not available in FlyWithLua.",
+    "Do not offer it, but leave a comment at least."
+)
+-- This function is not available in FlyWithLua, but it should be.
 -- function float_wnd_get_visible(window)
 --     luaUnit.assertNotNil(window)
 

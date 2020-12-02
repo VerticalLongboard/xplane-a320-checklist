@@ -6,7 +6,7 @@
         {
             "label": "packReleasePackage",
             "dependsOn": [
-                "localBValidationuildAndReloadFlyWithLua"
+                "localBuildAndReloadFlyWithLua"
             ],
             "type": "process",
             "command": "No non-windows command available.",
@@ -85,6 +85,41 @@
                     "quoting": "escape",
                     "value": "test-framework\\test_suite_generic.lua"
                 }
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "triggerAllIssues",
+            "type": "process",
+            "command": "No non-windows command available.",
+            "windows": {
+                "command": ".\\build\\run_script_in_folder_with_test_lua_paths.cmd"
+            },
+            "args": [
+                {
+                    "quoting": "escape",
+                    "value": "."
+                },
+                {
+                    "quoting": "escape",
+                    "value": "test-framework\\test_suite_generic.lua"
+                },
+                {
+                    "quoting": "escape",
+                    "value": "ISSUE_TRACKER_TRIGGER_ALL_ISSUES"
+                },
             ],
             "presentation": {
                 "echo": true,
