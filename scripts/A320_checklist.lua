@@ -218,6 +218,26 @@ local securingAircraftChecklistItems = {
 	{"APU AND BAT", "OFF"}
 }
 
+local a320ChecklistItemsTable = {
+	{"Before Start", "BEFORE START CHECKLIST", beforeStartChecklistItems},
+	{"After Start", "AFTER START CHECKLIST", afterStartChecklistItems},
+	{"Before Tkoff", "BEFORE TAKEOFF CHECKLIST", beforeTakeoffChecklistItems},
+	{"After Tkoff", "AFTER TAKEOFF CHECKLIST", afterTakeoffChecklistItems},
+	{"After Appr", "AFTER APPROACH CHECKLIST", afterApproachChecklistItems},
+	{"Landing", "LANDING CHECKLIST", landingChecklistItems},
+	{"After Landg", "AFTER LANDING CHECKLIST (SILENT)", afterLandingChecklistItems},
+	{"Parking", "PARKING CHECKLIST", parkingChecklistItems},
+	{"Securing A/c", "SECURING AIRCRAFT CHECKLIST", securingAircraftChecklistItems}
+}
+
+local checklistBackButtonTitleIndex = 1
+local checklistNextButtonTitleIndex = 2
+local checklistTitleIndex = 3
+local checklistContentIndex = 4
+local a320ChecklistTable = {}
+
+local defaultLineMaxWidth = 35
+
 function getCenteredString(str, maxWidth)
 	local linePadding = maxWidth - str:len()
 	local leftPadding = nil
@@ -239,26 +259,6 @@ function getLeftRightDottedString(left, right, maxWidth)
 	local dots = string.rep(".", maxWidth - left:len() - right:len())
 	return ("%s%s%s"):format(left, dots, right)
 end
-
-local a320ChecklistItemsTable = {
-	{"Before Start", "BEFORE START CHECKLIST", beforeStartChecklistItems},
-	{"After Start", "AFTER START CHECKLIST", afterStartChecklistItems},
-	{"Before Tkoff", "BEFORE TAKEOFF CHECKLIST", beforeTakeoffChecklistItems},
-	{"After Tkoff", "AFTER TAKEOFF CHECKLIST", afterTakeoffChecklistItems},
-	{"After Appr", "AFTER APPROACH CHECKLIST", afterApproachChecklistItems},
-	{"Landing", "LANDING CHECKLIST", landingChecklistItems},
-	{"After Landg", "AFTER LANDING CHECKLIST (SILENT)", afterLandingChecklistItems},
-	{"Parking", "PARKING CHECKLIST", parkingChecklistItems},
-	{"Securing A/c", "SECURING AIRCRAFT CHECKLIST", securingAircraftChecklistItems}
-}
-
-local checklistBackButtonTitleIndex = 1
-local checklistNextButtonTitleIndex = 2
-local checklistTitleIndex = 3
-local checklistContentIndex = 4
-local a320ChecklistTable = {}
-
-local defaultLineMaxWidth = 35
 
 local function generateChecklistStringFromItems(items, maxWidth)
 	local checklistString = ""
@@ -321,16 +321,12 @@ TRACK_ISSUE(
 	"Use a button that does nothing to display background-colored text."
 )
 function buildA320ChecklistWindow()
+	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, windowWidth, windowHeight, 0.0, 0.0, 1.0, 1.0, Colors.White)
+
 	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.MediumGrey)
 	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.MediumGrey)
 	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.MediumGrey)
-
-	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, windowWidth, windowHeight, 0.0, 0.0, 1.0, 1.0, Colors.White)
-
-	imgui.SetWindowFontScale(1.0)
-
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
-
 	if (currentA320ChecklistIndex > 1) then
 		if (imgui.Button(a320ChecklistTable[currentA320ChecklistIndex - 1][checklistBackButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex - 1
@@ -343,6 +339,9 @@ function buildA320ChecklistWindow()
 			currentA320ChecklistIndex = currentA320ChecklistIndex + 1
 		end
 	end
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
@@ -357,10 +356,6 @@ function buildA320ChecklistWindow()
 
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.Black)
 	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistContentIndex])
-	imgui.PopStyleColor()
-
-	imgui.PopStyleColor()
-	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 end
 
