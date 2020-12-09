@@ -127,113 +127,185 @@ local Config = Configuration:new(SCRIPT_DIRECTORY .. "A320_checklist.ini")
 local windowVisibilityVisible = "visible"
 local windowVisibilityHidden = "hidden"
 
-local beforeStartChecklistString =
-	"" ..
-	"COCKPIT PREP     COMPLETE (BOTH)\n" ..
-		"SIGNS            ON/AUTO\n" ..
-			"ADIRS            NAV\n" ..
-				"FUEL QTY/BAL     KG / BALANCED\n" ..
-					"MCDU TO DATA     SET\n" ..
-						"BARO REF         # SET\n" ..
-							"------------------------------------\n" ..
-								"WINDOWS/DOORS    CLOSED/ARMED (BOTH)\n" ..
-									"BEACON           ON\n" .. "THRUST LEV       IDLE\n" .. "PARK BRK         SET\n"
+local beforeStartChecklistItems = {
+	{"COCKPIT PREP", "COMPLETE (BOTH)"},
+	{"SIGNS", "ON/AUTO"},
+	{"ADIRS", "NAV"},
+	{"FUEL QTY/BAL", "KG / BALANCED"},
+	{"MCDU TO DATA", "SET"},
+	{"BARO REF", "# SET"},
+	{"-"},
+	{"WINDOWS/DOORS", "CLOSED/ARMED (BOTH)"},
+	{"BEACON", "ON"},
+	{"THRUST LEV", "IDLE"},
+	{"PARK BRK", "SET"}
+}
 
-local afterStartChecklistString =
-	"" ..
-	"ANTI ICE         AS RQRD\n" .. "ECAM STATUS      CHECKED\n" .. "PITCH TRIM       # SET\n" .. "RUDDER TRIM      ZERO\n"
+local afterStartChecklistItems = {
+	{"ANTI ICE", "AS RQRD"},
+	{"ECAM STATUS", "CHECKED"},
+	{"PITCH TRIM", "# SET"},
+	{"RUDDER TRIM", "ZERO"}
+}
 
-local beforeTakeoffChecklistString =
-	"" ..
-	"FLT CTRL         CHECKED (BOTH)\n" ..
-		"FLT INSTR        CHECKED (BOTH)\n" ..
-			"BRIEFING         CONFIRMED\n" ..
-				"FLAPS SETTING    CONF (BOTH)\n" ..
-					"V1/VR/V2/FLEX    CROSSCHECK (BOTH)\n" ..
-						"TRANSPONDER      SET\n" ..
-							"ECAM MEMO        TAKEOFF NO BLUE\n" ..
-								"TAKEOFF RWY      CONFIRMED\n" ..
-									"------------------------------------\n" ..
-										"CABIN CREW       ADVISED\n" ..
-											"ENG MODE         AS RQRD\n" .. "TCAS             TA/RA\n" .. "PACKS            AS RQRD\n"
+local beforeTakeoffChecklistItems = {
+	{"FLT CTRL", "CHECKED (BOTH)"},
+	{"FLT INSTR", "CHECKED (BOTH)"},
+	{"BRIEFING", "CONFIRMED"},
+	{"FLAPS SETTING", "CONF (BOTH)"},
+	{"V1/VR/V2/FLEX", "CROSSCHECK (BOTH)"},
+	{"TRANSPONDER", "SET"},
+	{"ECAM MEMO", "TAKEOFF NO BLUE"},
+	{"TAKEOFF RWY", "CONFIRMED"},
+	{"-"},
+	{"CABIN CREW", "ADVISED"},
+	{"ENG MODE", "AS RQRD"},
+	{"TCAS", "TA/RA"},
+	{"PACKS", "AS RQRD"}
+}
 
-local afterTakeoffChecklistString =
-	"" ..
-	"LANDING GEAR     GEAR UP\n" ..
-		"FLAPS            RETRACTED\n" ..
-			"PACKS            ON\n" .. "------------------------------------\n" .. "BARO REF         STD SET\n"
+local afterTakeoffChecklistItems = {
+	{"LANDING GEAR", "GEAR UP"},
+	{"FLAPS", "RETRACTED"},
+	{"PACKS", "ON"},
+	{"-"},
+	{"BARO REF", "STD SET"}
+}
 
-local afterApproachChecklistString =
-	"" ..
-	"BRIEFING         CONFIRMED\n" ..
-		"ECAM STATUS      CHECKED\n" ..
-			"SEAT BELTS       ON\n" ..
-				"------------------------------------\n" ..
-					"BARO REF         # SET\n" .. "MDA/DH           SET (BOTH)\n" .. "ENG MODE         AS RQRD\n"
+local afterApproachChecklistItems = {
+	{"BRIEFING", "CONFIRMED"},
+	{"ECAM STATUS", "CHECKED"},
+	{"SEAT BELTS", "ON"},
+	{"-"},
+	{"BARO REF", "# SET"},
+	{"MDA/DH", "SET (BOTH)"},
+	{"ENG MODE", "AS RQRD"}
+}
 
-local landingChecklistString =
-	"" ..
-	"CABIN            SECURED\n" ..
-		"A/THR            SPEED/OFF\n" ..
-			"AUTOBRAKE        AS RQRD\n" .. "GO-AROUND        ALTITUDE SET\n" .. "ECAM MEMO        LANDING NO BLUE\n"
+local landingChecklistItems = {
+	{"CABIN", "SECURED"},
+	{"A/THR", "SPEED/OFF"},
+	{"AUTOBRAKE", "AS RQRD"},
+	{"GO-AROUND", "ALTITUDE SET"},
+	{"ECAM MEMO", "LANDING NO BLUE"}
+}
 
-local afterLandingChecklistString =
-	"" ..
-	"FLAPS            RETRACTED\n" ..
-		"SPOILERS         DISARMED\n" .. "APU              AS RQRD\n" .. "RADAR            OFF\n" .. "RDR WINDSH SYS   OFF\n"
+local afterLandingChecklistItems = {
+	{"FLAPS", "RETRACTED"},
+	{"SPOILERS", "DISARMED"},
+	{"APU", "AS RQRD"},
+	{"RADAR", "OFF"},
+	{"RDR WINDSH SYS", "OFF"}
+}
 
-local parkingChecklistString =
-	"" ..
-	"APU BLEED        AS RQRD\n" ..
-		"Y ELEC PUMP      OFF\n" ..
-			"ENGINES          OFF\n" ..
-				"SEAT BELTS       OFF\n" ..
-					"EXT LT           AS RQRD\n" ..
-						"FUEL PUMPS       OFF\n" .. "PRK BRK, CHOCKS  AS RQRD\n" .. "TRANSPONDER      STANDBY\n"
+local parkingChecklistItems = {
+	{"APU BLEED", "AS RQRD"},
+	{"Y ELEC PUMP", "OFF"},
+	{"ENGINES", "OFF"},
+	{"SEAT BELTS", "OFF"},
+	{"EXT LT", "AS RQRD"},
+	{"FUEL PUMPS", "OFF"},
+	{"PRK BRK, CHOCKS", "AS RQRD"},
+	{"TRANSPONDER", "STANDBY"}
+}
 
-local securingAircraftChecklistString =
-	"" ..
-	"ADIRS            OFF\n" ..
-		"OXYGEN           OFF\n" ..
-			"APU BLEED        OFF\n" .. "EMER EXIT LT     OFF\n" .. "NO SMOKING       OFF\n" .. "APU AND BAT      OFF\n"
+local securingAircraftChecklistItems = {
+	{"ADIRS", "OFF"},
+	{"OXYGEN", "OFF"},
+	{"APU BLEED", "OFF"},
+	{"EMER EXIT LT", "OFF"},
+	{"NO SMOKING", "OFF"},
+	{"APU AND BAT", "OFF"}
+}
+
+function getCenteredString(str, maxWidth)
+	local linePadding = maxWidth - str:len()
+	local leftPadding = nil
+	local rightPadding = nil
+	if (linePadding % 2 == 0) then
+		leftPadding = linePadding * 0.5
+		rightPadding = leftPadding
+	else
+		leftPadding = math.floor(linePadding * 0.5)
+		rightPadding = leftPadding + 1
+	end
+
+	local padWhitespaceLeft = string.rep(" ", leftPadding)
+	local padWhitespaceRight = string.rep(" ", rightPadding)
+	return ("%s%s%s"):format(padWhitespaceLeft, str, padWhitespaceRight)
+end
+
+function getLeftRightDottedString(left, right, maxWidth)
+	local dots = string.rep(".", maxWidth - left:len() - right:len())
+	return ("%s%s%s"):format(left, dots, right)
+end
+
+local a320ChecklistItemsTable = {
+	{"Before Start", "BEFORE START CHECKLIST", beforeStartChecklistItems},
+	{"After Start", "AFTER START CHECKLIST", afterStartChecklistItems},
+	{"Before Tkoff", "BEFORE TAKEOFF CHECKLIST", beforeTakeoffChecklistItems},
+	{"After Tkoff", "AFTER TAKEOFF CHECKLIST", afterTakeoffChecklistItems},
+	{"After Appr", "AFTER APPROACH CHECKLIST", afterApproachChecklistItems},
+	{"Landing", "LANDING CHECKLIST", landingChecklistItems},
+	{"After Landg", "AFTER LANDING CHECKLIST (SILENT)", afterLandingChecklistItems},
+	{"Parking", "PARKING CHECKLIST", parkingChecklistItems},
+	{"Securing A/c", "SECURING AIRCRAFT CHECKLIST", securingAircraftChecklistItems}
+}
 
 local checklistButtonTitleIndex = 1
 local checklistTitleIndex = 2
 local checklistContentIndex = 3
+local a320ChecklistTable = {}
 
-local a320ChecklistTable = {
-	{"Before Start", "BEFORE START CHECKLIST", beforeStartChecklistString},
-	{"After Start", "AFTER START CHECKLIST", afterStartChecklistString},
-	{"Before Tkoff", "BEFORE TAKEOFF CHECKLIST", beforeTakeoffChecklistString},
-	{"After Tkoff", "AFTER TAKEOFF CHECKLIST", afterTakeoffChecklistString},
-	{"After Appr", "AFTER APPROACH CHECKLIST", afterApproachChecklistString},
-	{"Landing", "LANDING CHECKLIST", landingChecklistString},
-	{"After Landg", "AFTER LANDING CHECKLIST (SILENT)", afterLandingChecklistString},
-	{"Parking", "PARKING CHECKLIST", parkingChecklistString},
-	{"Securing A/c", "SECURING AIRCRAFT CHECKLIST", securingAircraftChecklistString}
-}
+local function generateChecklistStringFromItems(items, maxWidth)
+	local checklistString = ""
+	for _, item in ipairs(items) do
+		if (item[1] == "-") then
+			checklistString = ("%s%s\n"):format(checklistString, string.rep("=", maxWidth))
+		else
+			checklistString = ("%s%s\n"):format(checklistString, getLeftRightDottedString(item[1], item[2], maxWidth))
+		end
+	end
+
+	return checklistString
+end
+
+local function generateChecklistTable()
+	for _, cl in ipairs(a320ChecklistItemsTable) do
+		table.insert(a320ChecklistTable, {cl[1], getCenteredString(cl[2], 35), generateChecklistStringFromItems(cl[3], 36)})
+	end
+end
 
 local currentA320ChecklistIndex = 1
 
 local a320Blue = 0xFFFFDDAA
 local Colors = {
 	White = 0xFFFFFFFF,
-	Black = 0xFF000000
+	Black = 0xFF000000,
+	BrightGrey = 0xFFAAAAAA,
+	MediumGrey = 0xFF888888
 }
 
 local whiteImageId = nil
+local windowWidth = 270.0
+local windowHeight = 240.0
 
 TRACK_ISSUE(
 	"Imgui",
 	"Setting imgui.constant.Col.WindowBg/ChildBg does not change the window background color, even though it should.",
 	"Draw a white image in the background."
 )
+TRACK_ISSUE(
+	"Imgui",
+	"Text cannot have a specific background color.",
+	"Use a button that does nothing to display background-colored text."
+)
 function buildA320ChecklistWindow()
-	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.Black)
-	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.Black)
-	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.MediumGrey)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.MediumGrey)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.MediumGrey)
 
-	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, 270.0, 230.0, 0.0, 0.0, 1.0, 1.0, Colors.White)
+	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, windowWidth, windowHeight, 0.0, 0.0, 1.0, 1.0, Colors.White)
 
 	imgui.SetWindowFontScale(1.0)
 
@@ -252,9 +324,17 @@ function buildA320ChecklistWindow()
 	end
 	imgui.PopStyleColor()
 
+	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
+	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.Black)
+	imgui.Button(a320ChecklistTable[currentA320ChecklistIndex][checklistTitleIndex])
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
+
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.Black)
-	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistTitleIndex])
-	imgui.Separator()
 	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistContentIndex])
 	imgui.PopStyleColor()
 
@@ -298,7 +378,7 @@ local defaultWindowTitle = "A320 NORMAL CHECKLIST"
 function createA320ChecklistWindow()
 	whiteImageId = float_wnd_load_image(SCRIPT_DIRECTORY .. "a320-checklist-data/White.png")
 
-	a320ChecklistWindow = float_wnd_create(270, 230, 1, true)
+	a320ChecklistWindow = float_wnd_create(windowWidth, windowHeight, 1, true)
 	float_wnd_set_title(a320ChecklistWindow, defaultWindowTitle)
 	float_wnd_set_imgui_builder(a320ChecklistWindow, "buildA320ChecklistWindow")
 	float_wnd_set_onclose(a320ChecklistWindow, "destroyA320ChecklistWindow")
@@ -313,6 +393,8 @@ end
 local defaultMacroName = "A320 NORMAL CHECKLIST"
 
 local function initializeOnce()
+	generateChecklistTable()
+
 	Config:load()
 
 	windowIsSupposedToBeVisible = false
