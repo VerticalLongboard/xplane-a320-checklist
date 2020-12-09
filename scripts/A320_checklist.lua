@@ -127,116 +127,135 @@ local Config = Configuration:new(SCRIPT_DIRECTORY .. "A320_checklist.ini")
 local windowVisibilityVisible = "visible"
 local windowVisibilityHidden = "hidden"
 
-local beforeStartChecklistItems = {
-	{"COCKPIT PREP", "COMPLETE (BOTH)"},
-	{"SIGNS", "ON/AUTO"},
-	{"ADIRS", "NAV"},
-	{"FUEL QTY/BAL", "KG / BALANCED"},
-	{"MCDU TO DATA", "SET"},
-	{"BARO REF", "# SET"},
-	{"-"},
-	{"WINDOWS/DOORS", "CLOSED/ARMED (BOTH)"},
-	{"BEACON", "ON"},
-	{"THRUST LEV", "IDLE"},
-	{"PARK BRK", "SET"}
-}
-
-local afterStartChecklistItems = {
-	{"ANTI ICE", "AS RQRD"},
-	{"ECAM STATUS", "CHECKED"},
-	{"PITCH TRIM", "# SET"},
-	{"RUDDER TRIM", "ZERO"}
-}
-
-local beforeTakeoffChecklistItems = {
-	{"FLT CTRL", "CHECKED (BOTH)"},
-	{"FLT INSTR", "CHECKED (BOTH)"},
-	{"BRIEFING", "CONFIRMED"},
-	{"FLAPS SETTING", "CONF (BOTH)"},
-	{"V1/VR/V2/FLEX", "CROSSCHECK (BOTH)"},
-	{"TRANSPONDER", "SET"},
-	{"ECAM MEMO", "TAKEOFF NO BLUE"},
-	{"TAKEOFF RWY", "CONFIRMED"},
-	{"-"},
-	{"CABIN CREW", "ADVISED"},
-	{"ENG MODE", "AS RQRD"},
-	{"TCAS", "TA/RA"},
-	{"PACKS", "AS RQRD"}
-}
-
-local afterTakeoffChecklistItems = {
-	{"LANDING GEAR", "GEAR UP"},
-	{"FLAPS", "RETRACTED"},
-	{"PACKS", "ON"},
-	{"-"},
-	{"BARO REF", "STD SET"}
-}
-
-local afterApproachChecklistItems = {
-	{"BRIEFING", "CONFIRMED"},
-	{"ECAM STATUS", "CHECKED"},
-	{"SEAT BELTS", "ON"},
-	{"-"},
-	{"BARO REF", "# SET"},
-	{"MDA/DH", "SET (BOTH)"},
-	{"ENG MODE", "AS RQRD"}
-}
-
-local landingChecklistItems = {
-	{"CABIN", "SECURED"},
-	{"A/THR", "SPEED/OFF"},
-	{"AUTOBRAKE", "AS RQRD"},
-	{"GO-AROUND", "ALTITUDE SET"},
-	{"ECAM MEMO", "LANDING NO BLUE"}
-}
-
-local afterLandingChecklistItems = {
-	{"FLAPS", "RETRACTED"},
-	{"SPOILERS", "DISARMED"},
-	{"APU", "AS RQRD"},
-	{"RADAR", "OFF"},
-	{"RDR WINDSH SYS", "OFF"}
-}
-
-local parkingChecklistItems = {
-	{"APU BLEED", "AS RQRD"},
-	{"Y ELEC PUMP", "OFF"},
-	{"ENGINES", "OFF"},
-	{"SEAT BELTS", "OFF"},
-	{"EXT LT", "AS RQRD"},
-	{"FUEL PUMPS", "OFF"},
-	{"PRK BRK, CHOCKS", "AS RQRD"},
-	{"TRANSPONDER", "STANDBY"}
-}
-
-local securingAircraftChecklistItems = {
-	{"ADIRS", "OFF"},
-	{"OXYGEN", "OFF"},
-	{"APU BLEED", "OFF"},
-	{"EMER EXIT LT", "OFF"},
-	{"NO SMOKING", "OFF"},
-	{"APU AND BAT", "OFF"}
-}
-
 local a320ChecklistItemsTable = {
-	{"Before Start", "BEFORE START CHECKLIST", beforeStartChecklistItems},
-	{"After Start", "AFTER START CHECKLIST", afterStartChecklistItems},
-	{"Before Tkoff", "BEFORE TAKEOFF CHECKLIST", beforeTakeoffChecklistItems},
-	{"After Tkoff", "AFTER TAKEOFF CHECKLIST", afterTakeoffChecklistItems},
-	{"After Appr", "AFTER APPROACH CHECKLIST", afterApproachChecklistItems},
-	{"Landing", "LANDING CHECKLIST", landingChecklistItems},
-	{"After Landg", "AFTER LANDING CHECKLIST (SILENT)", afterLandingChecklistItems},
-	{"Parking", "PARKING CHECKLIST", parkingChecklistItems},
-	{"Securing A/c", "SECURING AIRCRAFT CHECKLIST", securingAircraftChecklistItems}
+	{
+		"Before Start",
+		"BEFORE START CHECKLIST",
+		{
+			{"COCKPIT PREP", "COMPLETE (BOTH)"},
+			{"SIGNS", "ON/AUTO"},
+			{"ADIRS", "NAV"},
+			{"FUEL QTY/BAL", "KG / BALANCED"},
+			{"MCDU TO DATA", "SET"},
+			{"BARO REF", "# SET"},
+			{"-"},
+			{"WINDOWS/DOORS", "CLOSED/ARMED (BOTH)"},
+			{"BEACON", "ON"},
+			{"THRUST LEV", "IDLE"},
+			{"PARK BRK", "SET"}
+		}
+	},
+	{
+		"After Start",
+		"AFTER START CHECKLIST",
+		{
+			{"ANTI ICE", "AS RQRD"},
+			{"ECAM STATUS", "CHECKED"},
+			{"PITCH TRIM", "# SET"},
+			{"RUDDER TRIM", "ZERO"}
+		}
+	},
+	{
+		"Before Tkoff",
+		"BEFORE TAKEOFF CHECKLIST",
+		{
+			{"FLT CTRL", "CHECKED (BOTH)"},
+			{"FLT INSTR", "CHECKED (BOTH)"},
+			{"BRIEFING", "CONFIRMED"},
+			{"FLAPS SETTING", "CONF (BOTH)"},
+			{"V1/VR/V2/FLEX", "CROSSCHECK (BOTH)"},
+			{"TRANSPONDER", "SET"},
+			{"ECAM MEMO", "TAKEOFF NO BLUE"},
+			{"TAKEOFF RWY", "CONFIRMED"},
+			{"-"},
+			{"CABIN CREW", "ADVISED"},
+			{"ENG MODE", "AS RQRD"},
+			{"TCAS", "TA/RA"},
+			{"PACKS", "AS RQRD"}
+		}
+	},
+	{
+		"After Tkoff",
+		"AFTER TAKEOFF CHECKLIST",
+		{
+			{"LANDING GEAR", "GEAR UP"},
+			{"FLAPS", "RETRACTED"},
+			{"PACKS", "ON"},
+			{"-"},
+			{"BARO REF", "STD SET"}
+		}
+	},
+	{
+		"After Appr",
+		"AFTER APPROACH CHECKLIST",
+		{
+			{"BRIEFING", "CONFIRMED"},
+			{"ECAM STATUS", "CHECKED"},
+			{"SEAT BELTS", "ON"},
+			{"-"},
+			{"BARO REF", "# SET"},
+			{"MDA/DH", "SET (BOTH)"},
+			{"ENG MODE", "AS RQRD"}
+		}
+	},
+	{
+		"Landing",
+		"LANDING CHECKLIST",
+		{
+			{"CABIN", "SECURED"},
+			{"A/THR", "SPEED/OFF"},
+			{"AUTOBRAKE", "AS RQRD"},
+			{"GO-AROUND", "ALTITUDE SET"},
+			{"ECAM MEMO", "LANDING NO BLUE"}
+		}
+	},
+	{
+		"After Landg",
+		"AFTER LANDING CHECKLIST (SILENT)",
+		{
+			{"FLAPS", "RETRACTED"},
+			{"SPOILERS", "DISARMED"},
+			{"APU", "AS RQRD"},
+			{"RADAR", "OFF"},
+			{"RDR WINDSH SYS", "OFF"}
+		}
+	},
+	{
+		"Parking",
+		"PARKING CHECKLIST",
+		{
+			{"APU BLEED", "AS RQRD"},
+			{"Y ELEC PUMP", "OFF"},
+			{"ENGINES", "OFF"},
+			{"SEAT BELTS", "OFF"},
+			{"EXT LT", "AS RQRD"},
+			{"FUEL PUMPS", "OFF"},
+			{"PRK BRK, CHOCKS", "AS RQRD"},
+			{"TRANSPONDER", "STANDBY"}
+		}
+	},
+	{
+		"Securing A/c",
+		"SECURING AIRCRAFT CHECKLIST",
+		{
+			{"ADIRS", "OFF"},
+			{"OXYGEN", "OFF"},
+			{"APU BLEED", "OFF"},
+			{"EMER EXIT LT", "OFF"},
+			{"NO SMOKING", "OFF"},
+			{"APU AND BAT", "OFF"}
+		}
+	}
 }
 
 local checklistBackButtonTitleIndex = 1
 local checklistNextButtonTitleIndex = 2
 local checklistTitleIndex = 3
 local checklistContentIndex = 4
-local a320ChecklistTable = {}
+local a320ChecklistStringTable = {}
 
-local defaultLineMaxWidth = 35
+local defaultButtonLineMaxWidth = 35
+local defaultTextLineMaxWidth = 36
 
 function getCenteredString(str, maxWidth)
 	local linePadding = maxWidth - str:len()
@@ -281,16 +300,16 @@ local function getNextButtonText(title, buttonWidth)
 	return ("%s%s >"):format(string.rep(" ", buttonWidth - title:len() - 2), title)
 end
 
-local function generateChecklistTable()
+local function generateChecklistStringTable()
 	local halfButtonWidth = 16
 	for _, cl in ipairs(a320ChecklistItemsTable) do
 		table.insert(
-			a320ChecklistTable,
+			a320ChecklistStringTable,
 			{
 				getBackButtonText(cl[1], halfButtonWidth),
 				getNextButtonText(cl[1], halfButtonWidth),
-				getCenteredString(cl[2], defaultLineMaxWidth),
-				generateChecklistStringFromItems(cl[3], 36)
+				getCenteredString(cl[2], defaultButtonLineMaxWidth),
+				generateChecklistStringFromItems(cl[3], defaultTextLineMaxWidth)
 			}
 		)
 	end
@@ -328,14 +347,14 @@ function buildA320ChecklistWindow()
 	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.MediumGrey)
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
 	if (currentA320ChecklistIndex > 1) then
-		if (imgui.Button(a320ChecklistTable[currentA320ChecklistIndex - 1][checklistBackButtonTitleIndex])) then
+		if (imgui.Button(a320ChecklistStringTable[currentA320ChecklistIndex - 1][checklistBackButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex - 1
 		end
 	end
 
-	if (currentA320ChecklistIndex < #a320ChecklistTable) then
+	if (currentA320ChecklistIndex < #a320ChecklistStringTable) then
 		imgui.SameLine(141)
-		if (imgui.Button(a320ChecklistTable[currentA320ChecklistIndex + 1][checklistNextButtonTitleIndex])) then
+		if (imgui.Button(a320ChecklistStringTable[currentA320ChecklistIndex + 1][checklistNextButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex + 1
 		end
 	end
@@ -348,14 +367,14 @@ function buildA320ChecklistWindow()
 	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.Black)
 	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.Black)
 	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.Black)
-	imgui.Button(a320ChecklistTable[currentA320ChecklistIndex][checklistTitleIndex])
+	imgui.Button(a320ChecklistStringTable[currentA320ChecklistIndex][checklistTitleIndex])
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.Black)
-	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistContentIndex])
+	imgui.TextUnformatted(a320ChecklistStringTable[currentA320ChecklistIndex][checklistContentIndex])
 	imgui.PopStyleColor()
 end
 
@@ -409,7 +428,7 @@ end
 local defaultMacroName = "A320 NORMAL CHECKLIST"
 
 local function initializeOnce()
-	generateChecklistTable()
+	generateChecklistStringTable()
 
 	Config:load()
 
