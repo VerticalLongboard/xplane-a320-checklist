@@ -252,10 +252,13 @@ local a320ChecklistItemsTable = {
 	{"Securing A/c", "SECURING AIRCRAFT CHECKLIST", securingAircraftChecklistItems}
 }
 
-local checklistButtonTitleIndex = 1
-local checklistTitleIndex = 2
-local checklistContentIndex = 3
+local checklistBackButtonTitleIndex = 1
+local checklistNextButtonTitleIndex = 2
+local checklistTitleIndex = 3
+local checklistContentIndex = 4
 local a320ChecklistTable = {}
+
+local defaultLineMaxWidth = 35
 
 local function generateChecklistStringFromItems(items, maxWidth)
 	local checklistString = ""
@@ -270,9 +273,26 @@ local function generateChecklistStringFromItems(items, maxWidth)
 	return checklistString
 end
 
+local function getBackButtonText(title, buttonWidth)
+	return ("< %s%s"):format(title, string.rep(" ", buttonWidth - title:len() - 2))
+end
+
+local function getNextButtonText(title, buttonWidth)
+	return ("%s%s >"):format(string.rep(" ", buttonWidth - title:len() - 2), title)
+end
+
 local function generateChecklistTable()
+	local halfButtonWidth = 16
 	for _, cl in ipairs(a320ChecklistItemsTable) do
-		table.insert(a320ChecklistTable, {cl[1], getCenteredString(cl[2], 35), generateChecklistStringFromItems(cl[3], 36)})
+		table.insert(
+			a320ChecklistTable,
+			{
+				getBackButtonText(cl[1], halfButtonWidth),
+				getNextButtonText(cl[1], halfButtonWidth),
+				getCenteredString(cl[2], defaultLineMaxWidth),
+				generateChecklistStringFromItems(cl[3], 36)
+			}
+		)
 	end
 end
 
@@ -310,15 +330,16 @@ function buildA320ChecklistWindow()
 	imgui.SetWindowFontScale(1.0)
 
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
+
 	if (currentA320ChecklistIndex > 1) then
-		if (imgui.Button("< " .. a320ChecklistTable[currentA320ChecklistIndex - 1][checklistButtonTitleIndex])) then
+		if (imgui.Button(a320ChecklistTable[currentA320ChecklistIndex - 1][checklistBackButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex - 1
 		end
 	end
 
 	if (currentA320ChecklistIndex < #a320ChecklistTable) then
-		imgui.SameLine(130)
-		if (imgui.Button(a320ChecklistTable[currentA320ChecklistIndex + 1][checklistButtonTitleIndex] .. " >")) then
+		imgui.SameLine(141)
+		if (imgui.Button(a320ChecklistTable[currentA320ChecklistIndex + 1][checklistNextButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex + 1
 		end
 	end
@@ -349,8 +370,8 @@ local PlaneCheckerSingleton
 do
 	PlaneCheckerSingleton = {}
 
-	function PlaneCheckerSingleton:isAirbusA320()
-		if (PLANE_ICAO == "A320") then
+	function PlaneCheckerSingleton:isAirbusA320Series()
+		if (PLANE_ICAO == "A320" or PLANE_ICAO == "A319" or PLANE_ICAO == "A321") then
 			return true
 		end
 		return false
@@ -366,7 +387,7 @@ function destroyA320ChecklistWindow()
 		float_wnd_destroy(a320ChecklistWindow)
 	end
 
-	if (PlaneCheckerSingleton:isAirbusA320()) then
+	if (PlaneCheckerSingleton:isAirbusA320Series()) then
 		Config:setValue("Windows", "MainWindowVisibility", windowVisibilityHidden)
 	end
 
@@ -383,7 +404,7 @@ function createA320ChecklistWindow()
 	float_wnd_set_imgui_builder(a320ChecklistWindow, "buildA320ChecklistWindow")
 	float_wnd_set_onclose(a320ChecklistWindow, "destroyA320ChecklistWindow")
 
-	if (PlaneCheckerSingleton:isAirbusA320()) then
+	if (PlaneCheckerSingleton:isAirbusA320Series()) then
 		Config:setValue("Windows", "MainWindowVisibility", windowVisibilityVisible)
 	end
 
@@ -402,7 +423,7 @@ local function initializeOnce()
 		windowIsSupposedToBeVisible = true
 	end
 
-	if (not PlaneCheckerSingleton:isAirbusA320()) then
+	if (not PlaneCheckerSingleton:isAirbusA320Series()) then
 		windowIsSupposedToBeVisible = false
 
 		add_macro(
@@ -413,7 +434,7 @@ local function initializeOnce()
 		)
 	else
 		add_macro(
-			defaultMacroName,
+			("%s NORMAL CHECKLIST"):format(PlaneCheckerSingleton:getIcao()),
 			"createA320ChecklistWindow()",
 			"destroyA320ChecklistWindow()",
 			windowVisibilityToInitialMacroState(windowIsSupposedToBeVisible)
