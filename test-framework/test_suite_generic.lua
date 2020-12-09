@@ -1,4 +1,5 @@
 IS_TEST = "yes"
+
 local issueTracker = require("issue_tracker")
 require("lua_platform")
 TRACK_ISSUE(
@@ -6,6 +7,8 @@ TRACK_ISSUE(
     "Switching from Lua 5.1 to 5.4 broke compatibility with LuaUnit and almost any table.insert call. Also, loadstring does not longer exist.",
     "Redefine basic language features according to current interpreter version."
 )
+
+local Utilities = require("utilities")
 
 local luaUnitOutput = require("luaunit_output")
 local luaUnit = require("luaunit")
@@ -19,9 +22,19 @@ local runner = luaUnit.LuaUnit.new()
 -- runner:setOutput(luaUnitOutput.ColorText)
 runner:setOutput(luaUnitOutput.ColorTap)
 local runnerResult = runner:runSuite()
+
 flyWithLuaStub:printSummary()
+
 issueTracker:printSummary()
+if (Utilities.fileOrDirectoryExists("script_modules/" .. os.getenv("RELEASE_FILE_NAME_PREFIX"))) then
+    Utilities.overwriteContentInFile(
+        "script_modules/" .. os.getenv("RELEASE_FILE_NAME_PREFIX") .. "/known_issues_url_encoded.txt",
+        Utilities.osExecuteEncode(Utilities.urlEncode(issueTracker:getKnownIssuesText()))
+    )
+end
+
 if (os.getenv("ISSUE_TRACKER_TRIGGER_ALL_ISSUES") ~= nil) then
     issueTracker:printAllIssues()
 end
+
 os.exit(runnerResult)

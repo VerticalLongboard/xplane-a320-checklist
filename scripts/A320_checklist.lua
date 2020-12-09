@@ -37,6 +37,18 @@ for i = 1, #licensesOfDependencies do
 	)
 end
 
+TRACK_ISSUE = TRACK_ISSUE or function(component, description, workaround)
+	end
+
+MULTILINE_TEXT = MULTILINE_TEXT or function(...)
+	end
+
+TRIGGER_ISSUE_AFTER_TIME = TRIGGER_ISSUE_AFTER_TIME or function(...)
+	end
+
+TRIGGER_ISSUE_IF = TRIGGER_ISSUE_IF or function(conditition)
+	end
+
 local function trim(str)
 	return str:gsub("^%s*(.-)%s*$", "%1")
 end
@@ -204,10 +216,28 @@ local a320ChecklistTable = {
 local currentA320ChecklistIndex = 1
 
 local a320Blue = 0xFFFFDDAA
+local Colors = {
+	White = 0xFFFFFFFF,
+	Black = 0xFF000000
+}
 
+local whiteImageId = nil
+
+TRACK_ISSUE(
+	"Imgui",
+	"Setting imgui.constant.Col.WindowBg/ChildBg does not change the window background color, even though it should.",
+	"Draw a white image in the background."
+)
 function buildA320ChecklistWindow()
+	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.Black)
+
+	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, 270.0, 230.0, 0.0, 0.0, 1.0, 1.0, Colors.White)
+
 	imgui.SetWindowFontScale(1.0)
 
+	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
 	if (currentA320ChecklistIndex > 1) then
 		if (imgui.Button("< " .. a320ChecklistTable[currentA320ChecklistIndex - 1][checklistButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex - 1
@@ -220,11 +250,17 @@ function buildA320ChecklistWindow()
 			currentA320ChecklistIndex = currentA320ChecklistIndex + 1
 		end
 	end
-
-	imgui.PushStyleColor(imgui.constant.Col.Text, a320Blue)
-	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistTitleIndex])
 	imgui.PopStyleColor()
+
+	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.Black)
+	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistTitleIndex])
+	imgui.Separator()
 	imgui.TextUnformatted(a320ChecklistTable[currentA320ChecklistIndex][checklistContentIndex])
+	imgui.PopStyleColor()
+
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
+	imgui.PopStyleColor()
 end
 
 a320ChecklistWindow = nil
@@ -260,6 +296,8 @@ end
 local defaultWindowTitle = "A320 NORMAL CHECKLIST"
 
 function createA320ChecklistWindow()
+	whiteImageId = float_wnd_load_image(SCRIPT_DIRECTORY .. "a320-checklist-data/White.png")
+
 	a320ChecklistWindow = float_wnd_create(270, 230, 1, true)
 	float_wnd_set_title(a320ChecklistWindow, defaultWindowTitle)
 	float_wnd_set_imgui_builder(a320ChecklistWindow, "buildA320ChecklistWindow")
