@@ -13,8 +13,8 @@ It is based on real Airbus checklists, with a tiny perk: The After Approach chec
 * Install FlyWithLua: https://forums.x-plane.org/index.php?/files/file/38445-flywithlua-ng-next-generation-edition-for-x-plane-11-win-lin-mac/
 * Download [latest A320 NORMAL CHECKLIST release](https://github.com/VerticalLongboard/xplane-a320-checklist/releases/latest)
 * **Use installer executable** and specify your X-Plane installation folder or unzip manually:
-  * Move dependencies to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Modules`
-  * Move `vhf_helper.lua` to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Scripts`
+  * Move dependencies from `Modules` to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Modules`
+  * Move scripts and data from `Scripts` to `<X-Plane 11 Folder>/Resources/plugins/FlyWithLua/Scripts`
 
 ## Usage
 
