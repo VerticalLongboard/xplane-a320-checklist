@@ -4,7 +4,7 @@
 
 Real life Airbus A320 family normal checklist (from Before Start to Securing Aircraft) using FlyWithLua. It can be moved freely within the cockpit and is completely independent (no PDF switching in Avitab etc. required).
 
-It is based on the real Airbus checklists, with a tiny perk: The After Approach checklist has a down-to line to manage cockpit workload a bit better while being vectored, receiving runway changes or simply not willing to wait until descending through transition altitude.
+It is based on real Airbus checklists, with a tiny perk: The After Approach checklist has a down-to line to manage cockpit workload a bit better while being vectored, receiving runway changes or simply not willing to wait until descending through transition altitude.
 
 ![A320 NORMAL CHECKLIST Screenshot](screenshots/A320-normal-checklist-screenshot.png "A320 NORMAL CHECKLIST Screenshot")
 
