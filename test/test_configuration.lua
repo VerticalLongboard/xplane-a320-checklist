@@ -1,7 +1,10 @@
 TestConfiguration = {}
 
+function TestConfiguration:setUp()
+    TestHighLevelBehaviour:bootstrapChecklist()
+end
+
 function TestConfiguration:testPanelOpensByDefaultInAnA320()
-    flyWithLuaStub:reset()
     flyWithLuaStub:setPlaneIcao("A320")
     local checklist = dofile("scripts/A320_checklist.lua")
     flyWithLuaStub:bootstrapAllMacros()
@@ -11,7 +14,6 @@ function TestConfiguration:testPanelOpensByDefaultInAnA320()
 end
 
 function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanes()
-    flyWithLuaStub:reset()
     flyWithLuaStub:setPlaneIcao("MD82")
     local checklist = dofile("scripts/A320_checklist.lua")
     flyWithLuaStub:bootstrapAllMacros()
@@ -21,7 +23,6 @@ function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanes()
 end
 
 function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanesEvenAfterOpeningItManually()
-    flyWithLuaStub:reset()
     flyWithLuaStub:setPlaneIcao("MD82")
     local checklist = dofile("scripts/A320_checklist.lua")
     a320ChecklistPackageExport.test.Config.Content.Windows.MainWindowVisibility = "hidden"
@@ -36,7 +37,6 @@ function TestConfiguration:testPanelDoesNotOpenByDefaultInOtherAirplanesEvenAfte
 end
 
 function TestConfiguration:testPanelDoesNotOpenUpAgainAutomaticallyAfterClosingItInAnA320ButThenAgainWhenOpened()
-    flyWithLuaStub:reset()
     flyWithLuaStub:setPlaneIcao("A320")
     local checklist = dofile("scripts/A320_checklist.lua")
     flyWithLuaStub:bootstrapAllMacros()

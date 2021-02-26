@@ -27,6 +27,8 @@ local licensesOfDependencies = {
 	{"Lua INI Parser", "MIT License", "https://github.com/Dynodzzo/Lua_INI_Parser"}
 }
 
+local Utilities = require("xplane-a320-normal-checklist.shared_components.utilities")
+
 for i = 1, #licensesOfDependencies do
 	logMsg(
 		("A320 NORMAL CHECKLIST using '%s' with license '%s'. Project homepage: %s"):format(
@@ -322,12 +324,30 @@ local Colors = {
 	White = 0xFFFFFFFF,
 	Black = 0xFF000000,
 	BrightGrey = 0xFFAAAAAA,
-	MediumGrey = 0xFF888888
+	MediumGrey = 0xFF888888,
+	DarkGrey = 0xFF444444,
+	DefaultImguiButtonBackground = 0xFF6F4624
 }
 
 local whiteImageId = nil
 local windowWidth = 270.0
 local windowHeight = 240.0
+
+A320ChecklistSunPitch = -1.337
+
+function getBrightness()
+	local fullBrightnessPitch = 5.0
+	if (A320ChecklistSunPitch > fullBrightnessPitch) then
+		return 1.0
+	end
+
+	local zeroBrightnessPitch = -fullBrightnessPitch
+	if (A320ChecklistSunPitch < zeroBrightnessPitch) then
+		return 0.0
+	end
+
+	return (A320ChecklistSunPitch + math.abs(zeroBrightnessPitch)) / (fullBrightnessPitch - zeroBrightnessPitch)
+end
 
 TRACK_ISSUE(
 	"Imgui",
@@ -337,14 +357,28 @@ TRACK_ISSUE(
 TRACK_ISSUE(
 	"Imgui",
 	"Text cannot have a specific background color.",
-	"Use a button that does nothing to display background-colored text."
+	"Use a button that does nothing in order to display background-colored text."
 )
-function buildA320ChecklistWindow()
-	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, windowWidth, windowHeight, 0.0, 0.0, 1.0, 1.0, Colors.White)
 
-	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.MediumGrey)
-	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.MediumGrey)
-	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.MediumGrey)
+function buildA320ChecklistWindow()
+	imgui.PushStyleVar(imgui.constant.StyleVar.FrameRounding, 2.0)
+
+	local brightness = getBrightness()
+
+	local textColor = nil
+	if (brightness < 0.5) then
+		textColor = Colors.White
+	else
+		textColor = Colors.Black
+	end
+
+	local bgColor = Utilities.lerpColors(Colors.Black, Colors.White, brightness)
+
+	imgui.DrawList_AddImage(whiteImageId, 0.0, 0.0, windowWidth, windowHeight, 0.0, 0.0, 1.0, 1.0, bgColor)
+
+	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.DefaultImguiButtonBackground)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.DefaultImguiButtonBackground)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.DefaultImguiButtonBackground)
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
 	if (currentA320ChecklistIndex > 1) then
 		if (imgui.Button(a320ChecklistStringTable[currentA320ChecklistIndex - 1][checklistBackButtonTitleIndex])) then
@@ -363,19 +397,25 @@ function buildA320ChecklistWindow()
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 
+	local titleBgColor = Utilities.lerpColors(Colors.DarkGrey, Colors.Black, brightness)
+
 	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.White)
-	imgui.PushStyleColor(imgui.constant.Col.Button, Colors.Black)
-	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, Colors.Black)
-	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.Button, titleBgColor)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonActive, titleBgColor)
+	imgui.PushStyleColor(imgui.constant.Col.ButtonHovered, titleBgColor)
 	imgui.Button(a320ChecklistStringTable[currentA320ChecklistIndex][checklistTitleIndex])
+
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 	imgui.PopStyleColor()
 
-	imgui.PushStyleColor(imgui.constant.Col.Text, Colors.Black)
+	imgui.PushStyleColor(imgui.constant.Col.Text, textColor)
 	imgui.TextUnformatted(a320ChecklistStringTable[currentA320ChecklistIndex][checklistContentIndex])
+
 	imgui.PopStyleColor()
+
+	imgui.PopStyleVar()
 end
 
 a320ChecklistWindow = nil
@@ -428,6 +468,8 @@ end
 local defaultMacroName = "A320 NORMAL CHECKLIST"
 
 local function initializeOnce()
+	dataref("A320ChecklistSunPitch", "sim/graphics/scenery/sun_pitch_degrees", "readable")
+
 	generateChecklistStringTable()
 
 	Config:load()
