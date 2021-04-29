@@ -129,7 +129,7 @@ local Config = Configuration:new(SCRIPT_DIRECTORY .. "A320_checklist.ini")
 local windowVisibilityVisible = "visible"
 local windowVisibilityHidden = "hidden"
 
-local a320ChecklistItemsTable = {
+local GenericChecklist = {
 	{
 		"Before Start",
 		"BEFORE START CHECKLIST",
@@ -237,7 +237,7 @@ local a320ChecklistItemsTable = {
 		}
 	},
 	{
-		"Securing A/c",
+		"Securing A/C",
 		"SECURING AIRCRAFT CHECKLIST",
 		{
 			{"ADIRS", "OFF"},
@@ -249,6 +249,153 @@ local a320ChecklistItemsTable = {
 		}
 	}
 }
+
+local vezyChecklist = {
+	{
+		"Cockpit Prep 1",
+		"PRELIMINARY COCKPIT PREP 1/2 (SILENT)",
+		{
+			{"ENG MASTERS", "OFF"},
+			{"ENG MODE SEL", "NORM"},
+			{"*WEATHER RADAR", "OFF"},
+			{"L/G LEVER", "DOWN"},
+			{"Both WIPER selectors", "OFF"},
+			{"BAT", "CHECK/AUTO"},
+			{"EXT POWER", "ON"},
+			{"APU FIRE", "CHECK/TEST"},
+			{"APU", "AS RQRD"},
+			{"When APU AVAIL:"},
+			{"AIR COND panel", "SET"},
+			{"EXT POWER", "AS RQRD"},
+			{"*COCKPIT LIGHTS", "AS RQRD"},
+			{"*ECAM RCL pb", "PRESS"}
+		}
+	},
+	{
+		"Cockpit Prep 2",
+		"PRELIMINARY COCKPIT PREP 2/2 (SILENT)",
+		{
+			{"*ECAM OXY PRES/HYO QTC/ENG"},
+			{"OIL QTY", "CHECK"},
+			{"FLAPS", "CHECK POSITION"},
+			{"*SPD BRK LEVEL CHECK RET AND DISARMED"},
+			{"*PARKING BRAKE", "ON"},
+			{"*ACCU/BRAKES PRESS", "CHECK"},
+			{"*OEB IN QRH", "CHECK"},
+			{"EMER EQPT", "CHECK/AUTO"},
+			{"RAIN REPELLENT", "CHECK/AUTO"},
+			{"C/B panels", "CHECK/AUTO"},
+			{"*GEAR PINS/FAN COWL FLAGS", "CHECK/AUTO"},
+			{"AIRCRAFT LIBRARY", "CHECK/AUTO"},
+			{"Only asterisks (*) items required"},
+			{"on transit stop."}
+		}
+	},
+	{
+		"Before Start",
+		"BEFORE START",
+		{
+			{"COCKPIT PREP", "COMPLETED (BOTH)"},
+			{"SIGNS", "ON/AUTO"},
+			{"ADIRS", "NAV"},
+			{"FUEL QUANTITY", "__KG/BALANCED"},
+			{"FMGS", "SET"},
+			{"ALTIMETERS", "__SET/xxxFT (BOTH)"},
+			{"-"},
+			{"WINDOWS/DOORS", "CLOSED/ARMED (BOTH)"},
+			{"BEACON", "ON"},
+			{"MOBILE PHONE", "OFF (BOTH)"},
+			{"PARKING BRAKE", "ON"}
+		}
+	},
+	{
+		"After Start",
+		"AFTER START",
+		{
+			{"ANTI ICE", "AS RQRD"},
+			{"ECAM STATUS", "CHECKED"},
+			{"PITCH TRIM", "__% SET"},
+			{"RUDDER TRIM", "ZERO"}
+		}
+	},
+	{
+		"Before Tkoff",
+		"BEFORE TAKEOFF",
+		{
+			{"FLT CTRL", "CHECKED (BOTH)"},
+			{"BRIEFING", "CONFIRMED"},
+			{"FLAP SETTING", "CONFIG__ (BOTH)"},
+			{"FMA & TAKEOFF DATA", "RD (PF), CKD (PM)"},
+			{"TRANSPONDER", "SET"},
+			{"ECAM MEMO", "TAKEOFF NO BLUE"},
+			{"EFB", "AS RQRD (BOTH)"},
+			{"-"},
+			{"CABIN", "SECURED FOR TAKEOFF"},
+			{"ENG MODE SEL", "AS RQRD"},
+			{"TCAS", "TA/RA"},
+			{"PACKS", "AS RQRD"},
+			{"ANTI ICE", "AS RQRD"}
+		}
+	},
+	{
+		"Appr",
+		"APPROACH",
+		{
+			{"MINIMUM", "__SET (BOTH)"},
+			{"ENG MODE SEL", "AS RQRD"},
+			{"EFB", "AS RQRD (BOTH)"}
+		}
+	},
+	{
+		"Landing",
+		"LANDING",
+		{
+			{"CABIN", "SECURED FOR LANDING"},
+			{"AUTOTHRUST", "SPEED/OFF"},
+			{"GO-AROUND ALT", "__FT SET"},
+			{"ECAM MEMO", "LANDING NO BLUE"},
+			{"   .LDG DOWN"},
+			{"   .SIGNS ON"},
+			{"   .SPLRS ARM"},
+			{"   .FLAPS SET"}
+		}
+	},
+	{
+		"Parking",
+		"PARKING (SILENT)",
+		{
+			{"APU BLEED", "AS RQRD"},
+			{"Y ELEC PUMP", "OFF"},
+			{"ENGINES", "OFF"},
+			{"SEAT BELTS", "OFF"},
+			{"EXT LT", "AS RQRD"},
+			{"PRK BRK and CHOCKS", "AS RQRD"},
+			{"MOBILE PHONE", "ON"},
+			{"TRANSPONDER", "STANDBY 2000"},
+			{"RADAR/PWS", "OFF"},
+			{"    Consider HEAVY RAIN"},
+			{"EXTRACT", "OVRD"}
+		}
+	},
+	{
+		"Securing",
+		"SECURING THE AIRCRAFT (SILENT)",
+		{
+			{"EFB", "BOTH OFF"},
+			{"FUEL PUMPS", "OFF"},
+			{"ADIRS", "OFF"},
+			{"OXYGEN", "OFF"},
+			{"APU BLEED", "OFF"},
+			{"EMER EXIT LT", "OFF"},
+			{"PARKING BRAKE", "ON"},
+			{"NO SMOKING", "OFF"},
+			{"APU AND BAT", "OFF"},
+			{"    Consider COLD WEATHER"}
+		}
+	}
+}
+
+local a320ChecklistItemsTable = GenericChecklist
 
 local checklistBackButtonTitleIndex = 1
 local checklistNextButtonTitleIndex = 2
