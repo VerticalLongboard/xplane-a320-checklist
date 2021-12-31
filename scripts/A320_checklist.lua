@@ -275,7 +275,7 @@ local vezyChecklist = {
 		"Cockpit Prep 2",
 		"PRELIMINARY COCKPIT PREP 2/2 (SILENT)",
 		{
-			{"*ECAM OXY PRES/HYO QTC/ENG"},
+			{"*ECAM", "OXY PRES/HYO QTC/ENG"},
 			{"OIL QTY", "CHECK"},
 			{"FLAPS", "CHECK POSITION"},
 			{"*SPD BRK LEVEL CHECK RET AND DISARMED"},
@@ -288,7 +288,7 @@ local vezyChecklist = {
 			{"*GEAR PINS/FAN COWL FLAGS", "CHECK/AUTO"},
 			{"AIRCRAFT LIBRARY", "CHECK/AUTO"},
 			{"Only asterisks (*) items required"},
-			{"on transit stop."}
+			{"On transit stop."}
 		}
 	},
 	{
@@ -354,10 +354,10 @@ local vezyChecklist = {
 			{"AUTOTHRUST", "SPEED/OFF"},
 			{"GO-AROUND ALT", "__FT SET"},
 			{"ECAM MEMO", "LANDING NO BLUE"},
-			{"   .LDG DOWN"},
-			{"   .SIGNS ON"},
-			{"   .SPLRS ARM"},
-			{"   .FLAPS SET"}
+			{"   LDG", "DOWN"},
+			{"   SIGNS", "ON"},
+			{"   SPLRS", "ARM"},
+			{"   FLAPS", " SET"}
 		}
 	},
 	{
@@ -373,7 +373,7 @@ local vezyChecklist = {
 			{"MOBILE PHONE", "ON"},
 			{"TRANSPONDER", "STANDBY 2000"},
 			{"RADAR/PWS", "OFF"},
-			{"    Consider HEAVY RAIN"},
+			{"Consider HEAVY RAIN"},
 			{"EXTRACT", "OVRD"}
 		}
 	},
@@ -390,12 +390,12 @@ local vezyChecklist = {
 			{"PARKING BRAKE", "ON"},
 			{"NO SMOKING", "OFF"},
 			{"APU AND BAT", "OFF"},
-			{"    Consider COLD WEATHER"}
+			{"Consider COLD WEATHER"}
 		}
 	}
 }
 
-local a320ChecklistItemsTable = GenericChecklist
+local a320ChecklistItemsTable = vezyChecklist
 
 local checklistBackButtonTitleIndex = 1
 local checklistNextButtonTitleIndex = 2
@@ -403,8 +403,19 @@ local checklistTitleIndex = 3
 local checklistContentIndex = 4
 local a320ChecklistStringTable = {}
 
-local defaultButtonLineMaxWidth = 35
-local defaultTextLineMaxWidth = 36
+-- Generic
+-- local defaultButtonLineMaxWidth = 35
+-- local defaultTextLineMaxWidth = 36
+-- local nextButtonXDistance = 141
+-- local windowWidth = 270.0
+-- local windowHeight = 250.0
+
+-- EZY
+local defaultButtonLineMaxWidth = 37
+local defaultTextLineMaxWidth = 38
+local nextButtonXDistance = 155
+local windowWidth = 290.0
+local windowHeight = 250.0
 
 function getCenteredString(str, maxWidth)
 	local linePadding = maxWidth - str:len()
@@ -433,6 +444,8 @@ local function generateChecklistStringFromItems(items, maxWidth)
 	for _, item in ipairs(items) do
 		if (item[1] == "-") then
 			checklistString = ("%s%s\n"):format(checklistString, string.rep("=", maxWidth))
+		elseif (item[2] == nil) then
+			checklistString = ("%s%s\n"):format(checklistString, getCenteredString(item[1], maxWidth))
 		else
 			checklistString = ("%s%s\n"):format(checklistString, getLeftRightDottedString(item[1], item[2], maxWidth))
 		end
@@ -477,8 +490,6 @@ local Colors = {
 }
 
 local whiteImageId = nil
-local windowWidth = 270.0
-local windowHeight = 240.0
 
 A320ChecklistSunPitch = -1.337
 
@@ -534,7 +545,7 @@ function buildA320ChecklistWindow()
 	end
 
 	if (currentA320ChecklistIndex < #a320ChecklistStringTable) then
-		imgui.SameLine(141)
+		imgui.SameLine(nextButtonXDistance)
 		if (imgui.Button(a320ChecklistStringTable[currentA320ChecklistIndex + 1][checklistNextButtonTitleIndex])) then
 			currentA320ChecklistIndex = currentA320ChecklistIndex + 1
 		end
