@@ -275,10 +275,10 @@ local vezyChecklist = {
 		"Cockpit Prep 2",
 		"PRELIMINARY COCKPIT PREP 2/2 (SILENT)",
 		{
-			{"*ECAM", "OXY PRES/HYO QTC/ENG"},
+			{"*ECAM OXY PRES/HYO QTC/ENG", "-"},
 			{"OIL QTY", "CHECK"},
 			{"FLAPS", "CHECK POSITION"},
-			{"*SPD BRK LEVEL CHECK RET AND DISARMED"},
+			{"*SPD BRK LEVER", "CHECK RET AND DISARMED"},
 			{"*PARKING BRAKE", "ON"},
 			{"*ACCU/BRAKES PRESS", "CHECK"},
 			{"*OEB IN QRH", "CHECK"},
@@ -287,8 +287,8 @@ local vezyChecklist = {
 			{"C/B panels", "CHECK/AUTO"},
 			{"*GEAR PINS/FAN COWL FLAGS", "CHECK/AUTO"},
 			{"AIRCRAFT LIBRARY", "CHECK/AUTO"},
-			{"Only asterisks (*) items required"},
-			{"On transit stop."}
+			{"Only asterisks (*) items required", "-"},
+			{"on transit stop.", "-"}
 		}
 	},
 	{
@@ -354,10 +354,10 @@ local vezyChecklist = {
 			{"AUTOTHRUST", "SPEED/OFF"},
 			{"GO-AROUND ALT", "__FT SET"},
 			{"ECAM MEMO", "LANDING NO BLUE"},
-			{"   LDG", "DOWN"},
-			{"   SIGNS", "ON"},
-			{"   SPLRS", "ARM"},
-			{"   FLAPS", " SET"}
+			{"   .LDG", "DOWN"},
+			{"   .SIGNS", "ON"},
+			{"   .SPLRS", "ARM"},
+			{"   .FLAPS", " SET"}
 		}
 	},
 	{
@@ -446,6 +446,8 @@ local function generateChecklistStringFromItems(items, maxWidth)
 			checklistString = ("%s%s\n"):format(checklistString, string.rep("=", maxWidth))
 		elseif (item[2] == nil) then
 			checklistString = ("%s%s\n"):format(checklistString, getCenteredString(item[1], maxWidth))
+		elseif (item[2] == "-") then
+			checklistString = ("%s%s\n"):format(checklistString, item[1])
 		else
 			checklistString = ("%s%s\n"):format(checklistString, getLeftRightDottedString(item[1], item[2], maxWidth))
 		end
