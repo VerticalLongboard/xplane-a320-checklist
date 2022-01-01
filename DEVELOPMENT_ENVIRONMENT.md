@@ -25,7 +25,7 @@ Required (Coding + Testing):
 * Run default build task via **CTRL+SHIFT+B** once and update local paths in:
   * `<repository root>/LOCAL_ENVIRONMENT_CONFIGURATION.cmd`
 
-Optional:
+Optional (Running + Packaging:
 * git: https://git-scm.com/ (Versioning)
 * 7zip: https://www.7-zip.org/ (ZIP release package)
 * NSIS: https://nsis.sourceforge.io/ (EXE release installer)
