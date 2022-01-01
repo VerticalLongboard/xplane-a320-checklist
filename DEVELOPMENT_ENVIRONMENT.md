@@ -16,7 +16,7 @@ Perks:
 
 ### Setup
 Required (Coding + Testing):
-* Vanilla Windows 10
+* Vanilla Current Windows
 * Visual Studio Code: https://code.visualstudio.com/
 * VS Code extensions:
   * vscode-lua (linting): https://marketplace.visualstudio.com/items?itemName=trixnz.vscode-lua
