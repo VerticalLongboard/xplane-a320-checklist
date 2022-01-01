@@ -16,14 +16,15 @@ Real life Airbus A320 family normal checklist (from Before Start to Securing Air
 
 ## Usage
 
-* Go to `Plugins/FlyWithLua/FlyWithLua Macros/A320 NORMAL CHECKLIST`
+* As long as you're in an A320 series aircraft, the checklist should pop up automatically
+  * If you closed it, go to `Plugins/FlyWithLua/FlyWithLua Macros/A320 NORMAL CHECKLIST`
 * Place and scale the window wherever you like (in 2D and VR)
 * Use the prev/next buttons to switch checklists
 * **Fly safe (and calm)! :-)**
 
 ## Dependencies
 
-Additional dependencies besides X-Plane 11, SmartCopilot and FlyWithLua:
+Additional dependencies besides X-Plane 11 and FlyWithLua:
 - LUA INI Parser
 (bundled with each release)
 
